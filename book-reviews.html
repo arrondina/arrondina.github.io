@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" initial-scale=1.0>
+    <title>Recommendations</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!--================ CSS ======================-->  
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <!--================ FAVICON ======================-->  
+    <link rel="shortcut icon" href="Images/logo.png" type="image/png">
+      
+    <!--================ REMIXICONS ======================-->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="9afza5vpuemopj82ffu65gt9sh9v8h9s">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>    
+</head>
+
+<body>
+    <!-- Navigation Section -->
+    <nav class="nav">
+        <a href="#" class="logo">
+            <img src="Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
+            BookVibe
+        </a>
+
+        <div class="bx bx-menu" id="menu-icon"> &#9776;</div>
+
+        <div class="navmenu">
+            <ul class="navlist">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="ri-home-3-line"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="book-reviews.html" class="nav-link">
+                        <i class="ri-shield-star-line"></i>
+                        <span>Book Reviews</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="recommendations.html" class="nav-link">
+                        <i class="ri-book-3-line"></i>
+                        <span>Recommendations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link.activate">
+                        <i class="ri-team-line"></i>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="login-button">
+                        <i class="ri-login-box-line"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Header Section -->
+        <section class="reviews-header">
+            <div class="container">
+                <h1>Book Reviews</h1>
+                <p>Explore the best books, read reviews, and find recommendations from other book lovers.</p>
+            </div>
+        </section>
+
+        <!-- Search Box Section -->
+        <section>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Search for books..." />
+                    <a href="search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sorting Options -->
+        <section class="sorting-section">
+            <div class="container">
+                <label for="genre">Genre:</label>
+                <select id="genre">
+                    <option value="all">All</option>
+                    <option value="action&adventure">Action & Adventure</option>
+                    <option value="design">Design</option>
+                    <option value="fiction">Fiction</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="history">History</option>
+                    <option value="horror">Horror</option>
+                    <option value="mystery">Mystery</option>
+                    <option value="philosophy">Philosophy</option>
+                    <option value="romance">Romance</option>
+                    <option value="self-help">Self-help</option>
+                    <option value="strategy">Strategy</option>
+                </select>
+
+                <label for="rating">Rating:</label>
+                    <select id="rating">
+                        <option value="all">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+
+                <label for="date">Sort by:</label>
+                <select id="date">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="rating">Highest Rating</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Book Review List -->
+        <section class="recommendation-list">
+            <div class="container">
+                <div class="book" data-genre="fantasy" data-rating="3" data-date="2024-07-22" data-reviews="350" onclick="openModal('Book Covers/HP Chamber of Secrets-JK Rowling.png', 'Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 'Fantasy', 'Harry returns to Hogwarts for his second year and uncovers dark secrets within the school as students are mysteriously petrified.')">
+                    <img src="Book Covers/HP Chamber of Secrets-JK Rowling.png" alt="HP Chamber of Secrets">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Chamber of Secrets</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="4" data-date="2024-06-22" data-reviews="400" onclick="openModal('Book Covers/HP Deathly Hallows-JK Rowling.png', 'Harry Potter and the Deathly Hallows', 'J.K. Rowling', 'Fantasy', 'The final battle between Harry and Voldemort unfolds as Harry and his friends search for Horcruxes to destroy the Dark Lord once and for all.')">
+                    <img src="Book Covers/HP Deathly Hallows-JK Rowling.png" alt="HP Deathly Hallows">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Deathly Hallows</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="4" data-date="2024-05-22" data-reviews="250" onclick="openModal('Book Covers/HP Goblet of Fire-JK Rowling.png', 'Harry Potter and the Goblet of Fire', 'J.K. Rowling', 'Fantasy', 'Harry competes in the dangerous Triwizard Tournament, facing dragons, underwater challenges, and a terrifying graveyard encounter with Voldemort.')">
+                    <img src="Book Covers/HP Goblet of Fire-JK Rowling.png" alt="HP Goblet of Fire">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Goblet of Fire</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="4" data-date="2024-04-22" data-reviews="275" onclick="openModal('Book Covers/HP Half-Blood Prince-JK Rowling.png', 'Harry Potter and the Half-Blood Prince', 'J.K. Rowling', 'Fantasy', 'In his sixth year, Harry learns about Voldemorts past and discovers a mysterious potion book belonging to the Half-Blood Prince.')">
+                    <img src="Book Covers/HP Half-Blood Prince-JK Rowling.png" alt="HP Half-Blood Prince">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Half-Blood Prince</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="5" data-date="2024-03-22" data-reviews="197" onclick="openModal('Book Covers/HP Order of the Phoenix-JK Rowling.png', 'Harry Potter and the Order of the Phoenix', 'J.K. Rowling', 'Fantasy', 'Harry faces his toughest year yet, battling the Ministry of Magics interference at Hogwarts and training a group of students to resist Voldemort.')">
+                    <img src="Book Covers/HP Order of the Phoenix-JK Rowling.png" alt="HP Order of the Phoenix">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Order of the Phoenix</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="3" data-date="2024-02-22" data-reviews="150" onclick="openModal('Book Covers/HP Philosophers Stone-JK Rowling.png', 'Harry Potter and the Philosophers Stone', 'J.K. Rowling', 'Fantasy', 'Harry discovers hes a wizard on his eleventh birthday and enters a world of magic, friends, and the dark mystery of the Philosophers Stone.')">
+                    <img src="Book Covers/HP Philosophers Stone-JK Rowling.png" alt="HP Philosopher's Stone">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Philosopher's Stone</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+
+                <div class="book" data-genre="fantasy" data-rating="4" data-date="2024-01-22" data-reviews="275" onclick="openModal('Book Covers/HP Prisoner of Azkaban-JK Rowling.png', 'Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', 'Fantasy', 'Harry learns about Sirius Black, an escaped prisoner who may be linked to his parents murder and uncovers secrets about his own family.')">
+                    <img src="Book Covers/HP Prisoner of Azkaban-JK Rowling.png" alt="HP Prisoner of Azkaban">
+                    <div class="book-info">
+                        <h3>Harry Potter and the Prisoner of Azkaban</h3>
+                        <h5>By J.K. Rowling</h5>
+                        <p class="genre">Genre: Fantasy</p>
+                    </div>
+                </div>
+              
+                <!-- Add more book items here -->
+            </div>
+        </section>
+
+        <!-- Modal for Book Details -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="modal-image" src="" alt="Book Image">
+                <h3 id="modal-title"></h3>
+                <h5 id="modal-author"></h5>
+                <p id="modal-genre"></p>
+                <p id="modal-description"></p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- JavaScript -->
+    <script>
+        // Function to open the modal
+        function openModal(image, title, author, genre, description) {
+            document.getElementById('modal-image').src = image;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-author').innerText = "By " + author;
+            document.getElementById('modal-genre').innerText = "Genre: " + genre;
+            document.getElementById('modal-description').innerText = description; // Set description
+            document.getElementById('modal').style.display = 'block';
+        }
+    
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Filtering Functionality
+            document.getElementById("genre").addEventListener("change", filterBooks);
+            document.getElementById("date").addEventListener("change", sortBooks);
+            
+            function filterBooks() {
+                const selectedGenre = document.getElementById("genre").value;
+                const books = document.querySelectorAll(".book");
+                
+                books.forEach(book => {
+                    const genreMatch = selectedGenre === "all" || book.dataset.genre === selectedGenre;
+                    book.style.display = genreMatch ? "block" : "none";
+                });
+            }
+
+            function sortBooks() {
+                const selectedSort = document.getElementById("date").value;
+                const books = Array.from(document.querySelectorAll(".book"));
+                const bookContainer = document.querySelector(".recommendation-list");
+
+                console.log(`Selected Sort Option: ${selectedSort}`); // Debug log
+
+                books.sort((a, b) => {
+                    if (selectedSort === "most-reviewed") {
+                    const reviewsA = parseInt(a.getAttribute("data-reviews")) || 0;
+                    const reviewsB = parseInt(b.getAttribute("data-reviews")) || 0;
+                    console.log(`Comparing Reviews: ${reviewsA} vs ${reviewsB}`); // Debug log
+                    return reviewsB - reviewsA;
+                } else if (selectedSort === "top-rated") {
+                    const ratingA = parseFloat(a.getAttribute("data-rating")) || 0;
+                    const ratingB = parseFloat(b.getAttribute("data-rating")) || 0;
+                    console.log(`Comparing Ratings: ${ratingA} vs ${ratingB}`); // Debug log
+                    return ratingB - ratingA;
+                } else if (selectedSort === "most-recent") {
+                    const dateA = new Date(a.getAttribute("data-date"));
+                    const dateB = new Date(b.getAttribute("data-date"));
+                    console.log(`Comparing Dates: ${dateA} vs ${dateB}`); // Debug log
+                    return dateB - dateA;
+                }
+            });
+
+            // Clear the container and re-add sorted books
+            bookContainer.innerHTML = ''; // Clear existing books
+            books.forEach(book => bookContainer.appendChild(book));
+        }
+
+        // Initial filter and sort on page load
+        filterBooks();
+        sortBooks();
+    });
+    </script>
+
+    <!-- Style for Modal -->
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 10% auto;
+            padding: 20px;
+            width: 60%;
+            max-width: 600px;
+            background-color: #c3a5d1;
+            border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: #333333; 
+        }
+
+        .modal-content h2 {
+            font-family: 'Georgia', serif;
+            color: #ff6347;
+
+        }
+
+        .modal-content p {
+          color: #555555;
+         font-size: 16px;
+        }
+
+        .modal-content img {
+        max-width: 100%; /* Adjust to fit within the modal width */
+        max-height: 400px; /* Limit height to avoid excessive vertical size */
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Footer Section -->
+    <footer>
+        <!-- Footer main -->
+        <section class="ft-main">
+          <div class="ft-main-item">
+            <h2 class="ft-title">BookVibe</h2>
+            <p>BookVibe is an interactive platform</p>
+            <p>for book enthusiasts to review, rate,</p> 
+            <p>and discuss their favorite reads. We</p>
+            <p>provide personalized recommendations</p> 
+            <p>based on your reading preferences.</p>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">About Us</h2>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">Work With Us</h2>
+            <ul>
+              <li><a href="#">Authors</a></li>
+              <li><a href="#">Advertise</a></li>
+              <li><a href="#">API</a></li>
+            </ul>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">Stay Updated</h2>
+            <p>Subscribe to our newsletter to get our latest news.</p>
+            <form>
+              <input type="email" name="email" placeholder="Enter email address" required>
+              <input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </section>
+      
+        <!-- Footer social -->
+        <section class="ft-social">
+          <ul class="ft-social-list">
+            <li><a href="https://www.facebook.com/" class="footer-social-link" aria-label="Facebook"><i class="ri-facebook-circle-line"></i></a></li>
+            <li><a href="https://x.com/" class="footer-social-link" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a></li>
+            <li><a href="https://www.instagram.com/" class="footer-social-link" aria-label="Instagram"><i class="ri-instagram-line"></i></a></li>
+          </ul>
+        </section>
+      
+        <!-- Footer legal -->
+        <section class="ft-legal">
+          <ul class="ft-legal-list">
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <p>&copy; 2024 BookVibe. All rights reserved.</p>
+          </ul>
+        </section>
+    </footer>
+
+</body>
+</html>
