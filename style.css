@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+/* ============= ADD REVIEW BUTTON ==============*/
+#log-button {
+    background-color: #452a5a;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+#log-button:hover {
+    background-color: #301934;
+}
+
 /* ============= BASE ==============*/
 * {
     margin: 0;
@@ -86,6 +100,33 @@ section {
     color: #c889e6;
 }
 
+/* Dropdown menu styles */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #452a5a;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+/* Links inside the dropdown */
+.dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: #301934;
+}
+
 /* ============= MAIN CONTENT ==============*/
 main {
     margin-top: 100px; /* Ensures main content doesn't overlap with fixed nav */
@@ -149,8 +190,8 @@ a.btn {
 	font-weight: bold;
 	text-align: center;
 	background-color: #301934;
-  color: #faf4f4;
-  transition: background-color 0.3s ease;
+    color: #faf4f4;
+    transition: background-color 0.3s ease;
 }
 
 a.btn:hover {
@@ -304,6 +345,156 @@ section hero {
     color: #f1c40f;
 }
 
+/* =========== BOOK REVIEW MODAL =========== */
+
+/* Modal Styling */
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dimmed background */
+    justify-content: center;
+    align-items: center;
+}
+  
+/* Modal Content */
+.modal-content {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: fadeIn 0.3s;
+}
+  
+/* Left Section: Book Image */
+.modal-book-cover-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+  
+.modal-book-cover {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+  
+/* Right Section: Book Details and Review */
+.modal-details {
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+/* Book Information */
+.modal-book-info h2 {
+    font-size: 1.5rem;
+    color: #452a5a;
+    margin-bottom: 10px;
+}
+  
+.modal-book-info p {
+    font-size: 1rem;
+    color: #666;
+}
+  
+/* Review Section */
+.review-section textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+  
+/* Tags Section */
+  .tags input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+/* Rating Stars */
+  .rating .stars {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+  
+.rating .star {
+    font-size: 1.5rem;
+    color: #ccc; /* Default color */
+    transition: color 0.3s;
+}
+  
+.rating .star:hover,
+.rating .star.selected {
+    color: #f1c40f; /* Highlighted color */
+}
+  
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #2a1b45;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+  
+.close-button:hover {
+    color: #c889e6;
+}
+  
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+  
+.save-button {
+    padding: 10px 20px;
+    background-color: #4B0082;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.save-button:hover {
+    background-color: #512e63;
+}
+  
+/* Animation for Modal */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
 /* =========== RECOMMENDATIONS PAGE =========== */
 /* Recommendations Header */
 .recommendations-header {
@@ -410,67 +601,6 @@ section hero {
 .recommendation-list .genre {
     font-size: 0.85rem;
     color: #f1c40f;
-}
-
-/* Modal Section */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fff;
-    color: #333;
-    padding: 20px;
-    border-radius: 8px;
-    width: 60%;
-    max-width: 600px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-.modal-content img {
-    max-width: 100%;
-    max-height: 400px;
-    margin-bottom: 20px;
-}
-
-.modal-content h3 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #512e63;
-}
-
-.modal-content h5 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.modal-content p {
-    font-size: 1rem;
-    color: #555;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5rem;
-    color: #999;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: #512e63;
 }
 
 /* Responsive Design for Recommendations Page */
@@ -654,7 +784,7 @@ body {
 }
   
 /* Newsletter form */
-form {
+.ft-form {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

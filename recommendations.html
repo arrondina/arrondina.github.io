@@ -61,6 +61,16 @@
                         <span>Login</span>
                     </a>
                 </li>
+
+                <!-- Log Button -->
+                <li class="nav-item" id="log-nav" style="display: none;">
+                    <a href="#" id="log-button" onclick="openLogModal()">Log Review</a>
+                </li>
+                
+                <!-- Profile Button -->
+                <li class="nav-item" id="profile-nav" style="display: none;">
+                    <a href="#" id="profile-button">Profile</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -316,29 +326,132 @@
                 <!-- Add more book items here -->
             </div>
         </section>
+    </main>
 
-        <!-- Modal for Book Details -->
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modal-image" src="" alt="Book Image">
-                <h3 id="modal-title"></h3>
-                <h5 id="modal-author"></h5>
-                <p id="modal-genre"></p>
-                <p id="modal-description"></p>
+    <!-- Modal for Book Details -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <img id="modal-image" src="" alt="Book Image" class="modal-image">
+                <div class="modal-details">
+                    <h3 id="modal-title" class="modal-title"></h3>
+                    <h5 id="modal-author" class="modal-author"></h5>
+                    <p id="modal-genre" class="modal-genre"></p>
+                    <p id="modal-description" class="modal-description"></p>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- Style for Modal -->
+    <style>
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark transparent overlay */
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #c3a5d1; /* Light background for content */
+            border-radius: 12px;
+            padding: 20px;
+            width: 60%;
+            max-width: 800px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            flex-direction: column;
+        }
+
+        /* Layout for Image and Details */
+        .modal-body {
+            display: flex;
+            gap: 20px; /* Space between image and details */
+            align-items: flex-start; /* Align items at the top */
+        }
+
+        /* Image Styling */
+        .modal-image {
+            width: 100%;
+            max-width: 300px; 
+            aspect-ratio: 2 / 3;
+            object-fit: cover;   
+            border-radius: 8px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .modal-details {
+            flex: 1; /* Takes remaining space next to the image */
+            text-align: left;
+        }
+
+        /* Details Section */
+        .modal-details h3 {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #452a5a;
+
+        }
+
+        .modal-details h5 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .modal-details p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .modal-details .modal-genre {
+            color: #6b6b6b;
+            font-weight: bold;
+        }
+
+        .modal-description {
+            color: #555555;
+            line-height: 1.4;
+        }
+
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #452a5a;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #ff6347; /* Highlight on hover */
+        }
+    </style>
     
     <!-- JavaScript -->
     <script>
         // Function to open the modal
         function openModal(image, title, author, genre, description) {
-            document.getElementById('modal-image').src = image;
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-author').innerText = "By " + author;
-            document.getElementById('modal-genre').innerText = "Genre: " + genre;
-            document.getElementById('modal-description').innerText = description; // Set description
+            document.getElementById('modal-image').src = image || 'default-image.jpg'; // Fallback image
+            document.getElementById('modal-title').innerText = title || 'Untitled Book';
+            document.getElementById('modal-author').innerText = "By " + (author || 'Unknown Author');
+            document.getElementById('modal-genre').innerText = "Genre: " + (genre || 'Not Specified');
+            document.getElementById('modal-description').innerText = description || 'No description available.';
             document.getElementById('modal').style.display = 'block';
         }
     
@@ -395,76 +508,337 @@
                     console.log(`Comparing Dates: ${dateA} vs ${dateB}`); // Debug log
                     return dateB - dateA;
                 }
-            });
+                });
+                
+                // Clear the container and re-add sorted books
+                bookContainer.innerHTML = ''; // Clear existing books
+                books.forEach(book => bookContainer.appendChild(book));
+            }
 
-            // Clear the container and re-add sorted books
-            bookContainer.innerHTML = ''; // Clear existing books
-            books.forEach(book => bookContainer.appendChild(book));
-        }
-
-        // Initial filter and sort on page load
-        filterBooks();
-        sortBooks();
-    });
+            // Initial filter and sort on page load
+            filterBooks();
+            sortBooks();
+        });
     </script>
+
+    <!-- Login/Signup Modal -->
+    <div id="authModal" class="modal">
+        <div class="wrapper">
+            <span class="close-button" onclick="closeAuthModal()">&times;</span>
+
+            <div class="title-text">
+                <div class="title login">Login</div>
+                <div class="title signup">Signup</div>
+            </div>
+
+            <div class="form-container">
+                <div class="slide-controls">
+                    <input type="radio" name="slide" id="login" checked>
+                    <input type="radio" name="slide" id="signup">
+                    <label for="login" class="slide login">Login</label>
+                    <label for="signup" class="slide signup">Signup</label>
+                    <div class="slider-tab">
+                    </div>
+                </div>
+                
+                <div class="form-inner">
+                    <!-- Login Form -->
+                    <form id="login-form" class="login">
+                        <div class="field">
+                            <input type="text" id="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="field">
+                            <input type="password" id="password" placeholder="Password" required>
+                        </div>
+                        <div class="pass-link"><a href="#">Forgot password?</a></div>
+                        <div class="field-btn">
+                            <div class="btn-layer"></div>
+                            <input type="submit" value="Login">
+                        </div>
+                        <div class="signup-link">Not a member? <a href="">Signup now</a></div>
+                    </form>
+                
+                    <!-- Signup Form -->
+                    <form action="#" class="signup">
+                        <div class="field">
+                            <input type="text" placeholder="Email Address" required>
+                        </div>
+                        <div class="field">
+                            <input type="password" placeholder="Password" required>
+                        </div>
+                        <div class="field">
+                            <input type="password" placeholder="Confirm password" required>
+                        </div>
+                        <div class="field btn">
+                            <div class="btn-layer"></div>
+                            <input type="submit" value="Signup">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Style for Modal -->
     <style>
+        .wrapper{
+            overflow: hidden;
+            max-width: 390px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+        }
+
+        .wrapper .title-text{
+            display: flex;
+            width: 200%;
+            color: #301934;
+        }
+
+        .wrapper .title{
+            width: 50%;
+            font-size: 35px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+
+        .wrapper .slide-controls{
+            position: relative;
+            display: flex;
+            height: 50px;
+            width: 100%;
+            overflow: hidden;
+            margin: 30px 0 10px 0;
+            justify-content: space-between;
+            border: 1px solid lightgrey;
+            border-radius: 15px;
+        }
+
+        .slide-controls .slide{
+            height: 100%;
+            width: 100%;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 48px;
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.6s ease;
+        }
+
+        .slide-controls label.signup{
+            color: #000;
+        }
+
+        .slide-controls .slider-tab{
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            left: 0;
+            z-index: 0;
+            border-radius: 15px;
+            background: -webkit-linear-gradient(left,#301934,#53325b,#a06ab5, #c889e6);
+            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+
+        input[type="radio"]{
+            display: none;
+        }
+
+        #signup:checked ~ .slider-tab{
+            left: 50%;
+        }
+
+        #signup:checked ~ label.signup{
+            color: #fff;
+            cursor: default;
+            user-select: none;
+        }
+
+        #signup:checked ~ label.login{
+            color: #000;
+        }
+
+        #login:checked ~ label.signup{
+            color: #000;
+        }
+
+        #login:checked ~ label.login{
+            cursor: default;
+            user-select: none;
+        }
+
+        .wrapper .form-container{
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .form-container .form-inner{
+            display: flex;
+            width: 200%;
+        }
+
+        .form-container .form-inner form{
+            width: 50%;
+            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+
+        .form-inner form .field{
+            height: 50px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .form-inner form .field input{
+            height: 100%;
+            width: 100%;
+            outline: none;
+            padding-left: 15px;
+            border-radius: 15px;
+            border: 1px solid lightgrey;
+            border-bottom-width: 2px;
+            font-size: 17px;
+            transition: all 0.3s ease;
+        }
+
+        .form-inner form .field input:focus{
+            border-color: #ae71e0;
+            /* box-shadow: inset 0 0 3px #fb6aae; */
+        }
+
+        .form-inner form .field input::placeholder{
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        form .field input:focus::placeholder{
+            color: #ae71e0;
+        }
+
+        .form-inner form .pass-link{
+            margin-top: 5px;
+        }
+
+        .form-inner form .signup-link{
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-inner form .pass-link a,
+        .form-inner form .signup-link a{
+            color: #ae71e0;
+            text-decoration: none;
+        }
+
+        .form-inner form .pass-link a:hover,
+        .form-inner form .signup-link a:hover{
+            text-decoration: underline;
+        }
+
+        .field-btn{
+            height: 50px;
+            width: 100%;
+            margin-top: 20px;
+        }
+      
+        .field-btn input {
+            height: 100%;
+            width: 100%;
+            outline: none;
+            padding-left: 15px;
+            border-radius: 15px;
+            border: 1px solid lightgrey;
+            border-bottom-width: 2px;
+            font-size: 20px;
+            font-weight: 600;
+            left: -100%;
+            background: #301934;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+        }
+
         /* Modal Styles */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
-            z-index: 100;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1000;
             background-color: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
         }
 
-        .modal-content {
+        .modal .wrapper {
+            max-width: 390px;
+            margin: 0 auto;
             position: relative;
-            margin: 10% auto;
-            padding: 20px;
-            width: 60%;
-            max-width: 600px;
-            background-color: #c3a5d1;
-            border-radius: 8px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            color: #333333; 
         }
 
-        .modal-content h2 {
-            font-family: 'Georgia', serif;
-            color: #ff6347;
-
-        }
-
-        .modal-content p {
-          color: #555555;
-         font-size: 16px;
-        }
-
-        .modal-content img {
-        max-width: 100%; /* Adjust to fit within the modal width */
-        max-height: 400px; /* Limit height to avoid excessive vertical size */
-        width: auto;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        }
-
-        .close {
+        /* Close Button */
+        .modal .close-button {
             position: absolute;
             top: 10px;
             right: 15px;
-            color: #aaa;
+            color: #301934;
             font-size: 24px;
-            font-weight: bold;
             cursor: pointer;
         }
     </style>
+
+    <!-- JavaScript -->
+    <script>
+        // Open Modal
+        function openAuthModal() {
+            const modal = document.getElementById("authModal");
+            modal.style.display = "flex";
+        }
+        
+        // Close Modal
+        function closeAuthModal() {
+            const modal = document.getElementById("authModal");
+            modal.style.display = "none";
+        }
+
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById("authModal");
+            if (event.target === modal) {
+                closeAuthModal();
+            }
+        }
+        
+        // Trigger Modal with Login Button
+        const loginButton = document.getElementById("login-button");
+        loginButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            openAuthModal();
+        });
+
+        // Login Modal
+        const loginText = document.querySelector(".title-text .login");
+            const loginForm = document.querySelector("form.login");
+            const loginBtn = document.querySelector("label.login");
+            const signupBtn = document.querySelector("label.signup");
+            const signupLink = document.querySelector("form .signup-link a");
+            signupBtn.onclick = (()=>{
+                loginForm.style.marginLeft = "-50%";
+                loginText.style.marginLeft = "-50%";
+            });
+            loginBtn.onclick = (()=>{
+                loginForm.style.marginLeft = "0%";
+                loginText.style.marginLeft = "0%";
+            });
+            signupLink.onclick = (()=>{
+                signupBtn.click();
+                return false;
+            });
+    </script>
 
     <!-- Footer Section -->
     <footer>
@@ -501,7 +875,7 @@
           <div class="ft-main-item">
             <h2 class="ft-title">Stay Updated</h2>
             <p>Subscribe to our newsletter to get our latest news.</p>
-            <form>
+            <form class="ft-form">
               <input type="email" name="email" placeholder="Enter email address" required>
               <input type="submit" value="Subscribe">
             </form>
