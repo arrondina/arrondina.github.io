@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+const express = require('./node_modules/express');
+const bodyParser = require('./node_modules/body-parser');
+const MongoClient = require('./node_modules/mongodb').MongoClient;
 
 const webapp = express();
 webapp.use(bodyParser.json());
@@ -18,7 +18,7 @@ MongoClient.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
                     res.send('Data inserted successfully! YAY');
                 })
                 .catch(err => {
-                    console.error('wah wah: ', err);
+                    console.error('Error inserting Data: ', err);
                     res.status(500).send('Error inserting data');
                 });
         });
