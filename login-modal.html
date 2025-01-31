@@ -1,0 +1,62 @@
+<div id="modalOverlay" class="modal-overlay"></div>
+
+<!-- Login/Signup Modal -->
+<div id="authModal" class="loginModal">
+    <div class="wrapper">
+        <span class="close-button" onclick="closeAuthModal()">&times;</span>
+
+        <div class="title-text">
+            <div class="title login">Login</div>
+            <div class="title signup">Signup</div>
+        </div>
+
+        <div id="error-message" style="color: red; text-align: center; display: none; margin-top: 10px;"></div> <!-- Error Message -->
+
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Login</label>
+                <label for="signup" class="slide signup">Signup</label>
+                <div class="slider-tab">
+                </div>
+            </div>
+            
+            <div class="form-inner">
+
+                <!-- Login Form -->
+                <form id="login-form" class="login">
+                    <div class="field">
+                        <input type="text" id="login-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <div class="pass-link"><a href="#">Forgot password?</a></div>
+                    <div class="field-btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Login">
+                    </div>
+                    <div class="signup-link">Not a member? <a href="">Signup now</a></div>
+                </form>
+            
+                <!-- Signup Form -->
+                <form action="#" class="signup">
+                    <div class="field">
+                        <input type="text" id="signup-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" id="signup-password" placeholder="Password" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm password" required>
+                    </div>
+                    <div class="field-btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Signup">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
