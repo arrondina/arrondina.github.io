@@ -7,8 +7,8 @@
     <title>BookVibe</title>
 
     <!--================ CSS ======================-->  
-    <link href="style.css" rel="stylesheet" type="text/css">
-
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+        
     <!--================ FAVICON ======================-->  
     <link rel="shortcut icon" href="Images/logo.png" type="image/png">
 
@@ -25,7 +25,7 @@
     <nav class="nav">
         <a href="#" class="logo">
             <img src="Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
-            BookVibe
+            <Strong> BookVibe </Strong>
         </a>
 
         <div class="bx bx-menu" id="menu-icon"> &#9776;</div>
@@ -308,14 +308,13 @@
                 </div>
                 
                 <div class="form-inner">
-
                     <!-- Login Form -->
-                    <form id="login-form" class="login">
+                    <form id="login-form" class="login" method="post" action="/login">
                         <div class="field">
-                            <input type="text" id="email" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="emailLogin" required>
                         </div>
                         <div class="field">
-                            <input type="password" id="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="passwordLogin" required>
                         </div>
                         <div class="pass-link"><a href="#">Forgot password?</a></div>
                         <div class="field-btn">
@@ -326,16 +325,18 @@
                     </form>
                 
                     <!-- Signup Form -->
-                    <form action="#" class="signup">
+                    <form id="signup-form" class="signup" method="post" action="/signup">
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="emailSignup" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="passwordSignup" required>
                         </div>
+                        <!-- put a condition in dbconnection.js where if passwordSignup != confirmPsignUp, then try again  -->
+                        <!-- 
                         <div class="field">
                             <input type="password" placeholder="Confirm password" required>
-                        </div>
+                        </div>-->
                         <div class="field-btn">
                             <div class="btn-layer"></div>
                             <input type="submit" value="Signup">
@@ -558,11 +559,8 @@
             cursor: pointer;
         }
     </style>
-<script type="module" src="dbconnection.js"></script>
     <!-- JavaScript -->
     <script>
-        
-
         // Open Modal
         function openAuthModal() {
             const modal = document.getElementById("authModal");

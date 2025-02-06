@@ -1,32 +1,72 @@
-const express = require('./node_modules/express');
-const bodyParser = require('./node_modules/body-parser');
-const MongoClient = require('./node_modules/mongodb').MongoClient;
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-const webapp = express();
-webapp.use(bodyParser.json());
-const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const app = express();
 
-MongoClient.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(client => {
-        const database = client.db("BVDB");
-        const userCollection = database.collection("Users");
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
-        webapp.post('./login-form', (req, res) => {
-            const formData = req.body;
-            collection.insertOne(formData)
-                .then(result => {
-                    res.send('Data inserted successfully! YAY');
-                })
-                .catch(err => {
-                    console.error('Error inserting Data: ', err);
-                    res.status(500).send('Error inserting data');
-                });
-        });
+const userRoutes = require('./Routes/userRoutes');
 
-        webapp.listen(3000, () => {
-            console.log('Server listening on port 3000');
-        });
+const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/BVDB?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(uri);
+
+const userSchema = {
+    email: String,
+    password: String
+}
+
+const User = require('./Models/userModel')
+
+const websitePath = path.join(__dirname, '/public')
+
+console.log(websitePath);
+
+app.use(express.static(websitePath));
+
+//app.use('/signup', userRoutes)
+
+app.post("/signup",function(req, res) {
+    let newUser = new User({
+        email: req.body.emailSignup,
+        password: req.body.passwordSignup
     })
-    .catch(err => {
-        console.error('Error connecting to MongoDB: ', err);
-    });
+
+    // conditions
+    console.log(req.body.emailSignup)
+
+    newUser.save();
+    res.redirect('/');
+})
+
+app.post('/login', function(req, res){
+
+    const findUser = new User({
+        email: req.body.emailLogin,
+        password: req.body.passwordLogin
+    })
+
+    //const {id} = req.params
+
+    const userL = User.findOne({email: toString(req.body.emailLogin)}, 'password');
+
+    //console.log(userL)
+    
+    console.log(userL)
+
+    if(!userL) {
+        return res.status(400).json({error:"No such User"});
+    }
+    //res.status(200).json(userL);
+    //res.status(200).json(userL);
+
+});
+
+
+app.listen(5000, function() {
+    console.log("server is running on 5000")
+})
