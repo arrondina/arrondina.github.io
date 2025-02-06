@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -65,7 +65,7 @@
                 
                 <!-- Log Button -->
                 <li class="nav-item" id="log-nav" style="display: none;">
-                    <a href="#" id="log-button" onclick="openLogModal()">Log Review</a>
+                    <a href="#" id="log-button" onclick="openSearchModal()">Log Review</a>
                 </li>
                 
                 <!-- Profile Button -->
@@ -285,329 +285,6 @@
     
     </main>
 
-    <!-- Login/Signup Modal -->
-    <div id="authModal" class="modal">
-        <div class="wrapper">
-            <span class="close-button" onclick="closeAuthModal()">&times;</span>
-
-            <div class="title-text">
-                <div class="title login">Login</div>
-                <div class="title signup">Signup</div>
-            </div>
-
-            <div id="error-message" style="color: red; text-align: center; display: none; margin-top: 10px;"></div> <!-- Error Message -->
-
-            <div class="form-container">
-                <div class="slide-controls">
-                    <input type="radio" name="slide" id="login" checked>
-                    <input type="radio" name="slide" id="signup">
-                    <label for="login" class="slide login">Login</label>
-                    <label for="signup" class="slide signup">Signup</label>
-                    <div class="slider-tab">
-                    </div>
-                </div>
-                
-                <div class="form-inner">
-
-                    <!-- Login Form -->
-                    <form id="login-form" class="login">
-                        <div class="field">
-                            <input type="text" id="email" placeholder="Email Address" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" id="password" placeholder="Password" required>
-                        </div>
-                        <div class="pass-link"><a href="#">Forgot password?</a></div>
-                        <div class="field-btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Login">
-                        </div>
-                        <div class="signup-link">Not a member? <a href="">Signup now</a></div>
-                    </form>
-                
-                    <!-- Signup Form -->
-                    <form action="#" class="signup">
-                        <div class="field">
-                            <input type="text" placeholder="Email Address" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Password" required>
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Confirm password" required>
-                        </div>
-                        <div class="field-btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Signup">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Style for Modal -->
-    <style>
-        .wrapper{
-            overflow: hidden;
-            max-width: 390px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
-        }
-
-        .wrapper .title-text{
-            display: flex;
-            width: 200%;
-            color: #301934;
-        }
-
-        .wrapper .title{
-            width: 50%;
-            font-size: 35px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
-        }
-
-        .wrapper .slide-controls{
-            position: relative;
-            display: flex;
-            height: 50px;
-            width: 100%;
-            overflow: hidden;
-            margin: 30px 0 10px 0;
-            justify-content: space-between;
-            border: 1px solid lightgrey;
-            border-radius: 15px;
-        }
-
-        .slide-controls .slide{
-            height: 100%;
-            width: 100%;
-            color: #fff;
-            font-size: 18px;
-            font-weight: 500;
-            text-align: center;
-            line-height: 48px;
-            cursor: pointer;
-            z-index: 1;
-            transition: all 0.6s ease;
-        }
-
-        .slide-controls label.signup{
-            color: #000;
-        }
-
-        .slide-controls .slider-tab{
-            position: absolute;
-            height: 100%;
-            width: 50%;
-            left: 0;
-            z-index: 0;
-            border-radius: 15px;
-            background: -webkit-linear-gradient(left,#301934,#53325b,#a06ab5, #c889e6);
-            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
-        }
-
-        input[type="radio"]{
-            display: none;
-        }
-
-        #signup:checked ~ .slider-tab{
-            left: 50%;
-        }
-
-        #signup:checked ~ label.signup{
-            color: #fff;
-            cursor: default;
-            user-select: none;
-        }
-
-        #signup:checked ~ label.login{
-            color: #000;
-        }
-
-        #login:checked ~ label.signup{
-            color: #000;
-        }
-
-        #login:checked ~ label.login{
-            cursor: default;
-            user-select: none;
-        }
-
-        .wrapper .form-container{
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .form-container .form-inner{
-            display: flex;
-            width: 200%;
-        }
-
-        .form-container .form-inner form{
-            width: 50%;
-            transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
-        }
-
-        .form-inner form .field{
-            height: 50px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .form-inner form .field input{
-            height: 100%;
-            width: 100%;
-            outline: none;
-            padding-left: 15px;
-            border-radius: 15px;
-            border: 1px solid lightgrey;
-            border-bottom-width: 2px;
-            font-size: 17px;
-            transition: all 0.3s ease;
-        }
-
-        .form-inner form .field input:focus{
-            border-color: #ae71e0;
-            /* box-shadow: inset 0 0 3px #fb6aae; */
-        }
-
-        .form-inner form .field input::placeholder{
-            color: #999;
-            transition: all 0.3s ease;
-        }
-
-        form .field input:focus::placeholder{
-            color: #ae71e0;
-        }
-
-        .form-inner form .pass-link{
-            margin-top: 5px;
-        }
-
-        .form-inner form .signup-link{
-            text-align: center;
-            margin-top: 30px;
-            color: #000;
-        }
-
-        .form-inner form .pass-link a,
-        .form-inner form .signup-link a{
-            color: #ae71e0;
-            text-decoration: none;
-        }
-
-        .form-inner form .pass-link a:hover,
-        .form-inner form .signup-link a:hover{
-            text-decoration: underline;
-        }
-
-        .field-btn{
-            height: 50px;
-            width: 100%;
-            margin-top: 20px;
-        }
-      
-        .field-btn input {
-            height: 100%;
-            width: 100%;
-            outline: none;
-            padding-left: 15px;
-            border-radius: 15px;
-            border: 1px solid lightgrey;
-            border-bottom-width: 2px;
-            font-size: 20px;
-            font-weight: 600;
-            left: -100%;
-            background: #301934;
-            border-radius: 15px;
-            transition: all 0.4s ease;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            background-color: rgba(0, 0, 0, 0.6);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal .wrapper {
-            max-width: 390px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* Close Button */
-        .modal .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: #301934;
-            font-size: 24px;
-            cursor: pointer;
-        }
-    </style>
-
-    <!-- JavaScript -->
-    <script>
-        // Open Modal
-        function openAuthModal() {
-            const modal = document.getElementById("authModal");
-            modal.style.display = "flex";
-        }
-        
-        // Close Modal
-        function closeAuthModal() {
-            const modal = document.getElementById("authModal");
-            modal.style.display = "none";
-        }
-
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById("authModal");
-            if (event.target === modal) {
-                closeAuthModal();
-            }
-        }
-        
-        // Trigger Modal with Login Button
-        const loginButton = document.getElementById("login-button");
-        loginButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            openAuthModal();
-        });
-
-        // Login Modal
-        const loginText = document.querySelector(".title-text .login");
-            const loginForm = document.querySelector("form.login");
-            const loginBtn = document.querySelector("label.login");
-            const signupBtn = document.querySelector("label.signup");
-            const signupLink = document.querySelector("form .signup-link a");
-            signupBtn.onclick = (()=>{
-                loginForm.style.marginLeft = "-50%";
-                loginText.style.marginLeft = "-50%";
-            });
-            loginBtn.onclick = (()=>{
-                loginForm.style.marginLeft = "0%";
-                loginText.style.marginLeft = "0%";
-            });
-            signupLink.onclick = (()=>{
-                signupBtn.click();
-                return false;
-            });
-    </script>
-
     <!-- Footer Section -->
     <footer>
         <!-- Footer main -->
@@ -668,6 +345,97 @@
           </ul>
         </section>
     </footer>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="modalSearch">
+        <div class="modal-search">
+            <span class="close-search" onclick="closeSearchModal()">&times;</span>
+            <h2>Add to your books...</h2>
+            <div class="search-container">
+                <input
+                    type="text"
+                    placeholder="Type the book title..."
+                    id="book-name"
+                    oninput="searchBooks()"
+                />
+            </div>
+
+            <ul id="searchResults" class="search-results">
+                <!-- Dynamic list of books will appear here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Login -->
+    <script>
+        fetch("login-modal.html")
+        .then((response) => response.text())
+        .then((html) => {
+            document.body.insertAdjacentHTML("beforeend", html);
+            attachEventListeners();
+        })
+        .catch((error) => {
+            console.error("Error loading login modal:", error);
+        });
+    </script>
+
+    <!-- Book Review Modal -->
+    <div id="bookReviewModal" class="modalReview">
+        <div class="review-content">
+            <button class="back-button" onclick="goBackToSearch()">← Back</button>
+            <span class="close-button" onclick="closeBookReviewModal()">&times;</span>
+
+            <div class="modal-body">
+                <!-- Left Section: Book Image -->
+                <div class="modal-book-cover-container">
+                    <img id="modal-image" src="" alt="Book Cover" class="modal-image">
+                </div>
+            
+                <!-- Right Section: Book Details and Review -->
+                <div class="modal-details">
+                    <!-- Book Info -->
+                    <div class="modal-book-info">
+                        <h2 id="book-title" class="modal-title">Book Title</h2>
+                        <p>Author: <span id="book-author" class="modal-author">Author Name</span></p>
+                    </div>
+    
+                    <!-- Review Section -->
+                    <div class="review-section">
+                        <label>
+                            <input type="checkbox" id="finishedReading"> Finished Reading
+                        </label>
+                        <textarea id="review" placeholder="Add a review..."></textarea>
+                    </div>
+    
+                    <!-- Tags Section -->
+                    <div class="tags">
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="tags" placeholder="Press Enter to create tags">
+                    </div>
+    
+                    <!-- Rating Section -->
+                    <div class="rating">
+                        <label for="rating">Rating:</label>
+                        <div class="stars" id="rating-stars">
+                            <!-- 5 Clickable Stars -->
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="star" data-value="5">&#9733;</span>
+                        </div>
+                    </div>
+    
+                    <!-- Save Button -->
+                    <div class="modal-footer">
+                        <button class="save-button" onclick="saveReview()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
 </html>

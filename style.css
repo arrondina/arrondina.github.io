@@ -127,6 +127,220 @@ section {
     background-color: #301934;
 }
 
+/* ============= LOGIN MODAL ==============*/
+/* Modal Styles */
+.loginModal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.loginModal .wrapper {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.wrapper{
+    overflow: hidden;
+    max-width: 390px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+}
+
+.wrapper .title-text{
+    display: flex;
+    width: 200%;
+    color: #301934;
+}
+
+.wrapper .title{
+    width: 50%;
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.wrapper .slide-controls{
+    position: relative;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+    margin: 30px 0 10px 0;
+    justify-content: space-between;
+    border: 1px solid lightgrey;
+    border-radius: 15px;
+}
+
+.slide-controls .slide{
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 48px;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.6s ease;
+}
+
+.slide-controls label.signup{
+    color: #000;
+}
+
+.slide-controls .slider-tab{
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    z-index: 0;
+    border-radius: 15px;
+    background: -webkit-linear-gradient(left,#301934,#53325b,#a06ab5, #c889e6);
+    transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+#signup:checked ~ .slider-tab{
+    left: 50%;
+}
+
+#signup:checked ~ label.signup{
+    color: #fff;
+    cursor: default;
+    user-select: none;
+}
+
+#signup:checked ~ label.login{
+    color: #000;
+}
+
+#login:checked ~ label.signup{
+    color: #000;
+}
+
+#login:checked ~ label.login{
+    cursor: default;
+    user-select: none;
+}
+
+.wrapper .form-container{
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-container .form-inner{
+    display: flex;
+    width: 200%;
+}
+
+.form-container .form-inner form{
+    width: 50%;
+    transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.form-inner form .field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-inner form .field input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+    border-radius: 15px;
+    border: 1px solid lightgrey;
+    border-bottom-width: 2px;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+
+.form-inner form .field input:focus{
+    border-color: #ae71e0;
+    /* box-shadow: inset 0 0 3px #fb6aae; */
+}
+
+.form-inner form .field input::placeholder{
+    color: #999;
+    transition: all 0.3s ease;
+}
+
+form .field input:focus::placeholder{
+    color: 71e0;
+}
+
+.form-inner form .pass-link{
+    margin-top: 5px;
+}
+
+.form-inner form .signup-link{
+    text-align: center;
+    margin-top: 30px;
+    color: #000;
+}
+
+.form-inner form .pass-link a,
+.form-inner form .signup-link a{
+    color: #ae71e0;
+    text-decoration: none;
+}
+
+.form-inner form .pass-link a:hover,
+.form-inner form .signup-link a:hover{
+    text-decoration: underline;
+}
+
+.field-btn{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.field-btn input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+    border-radius: 15px;
+    border: 1px solid lightgrey;
+    border-bottom-width: 2px;
+    font-size: 20px;
+    font-weight: 600;
+    left: -100%;
+    background: #301934;
+    border-radius: 15px;
+    transition: all 0.4s ease;
+}
+
+/* Close Button */
+.loginModal .close-button {
+    position: absolu#aete;
+    top: 10px;
+    right: 15px;
+    color: #301934;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 /* ============= MAIN CONTENT ==============*/
 main {
     margin-top: 100px; /* Ensures main content doesn't overlap with fixed nav */
@@ -139,6 +353,92 @@ main {
     color: white;
     cursor: pointer;
     z-index: 10001;  
+}
+
+/* ============= BOOK SEARCH ==============*/
+.modalSearch {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dim background */
+}
+  
+.modal-search {
+    font-size: 16px;
+    max-width: 40em;
+    margin: auto;
+    margin-top: 10%;
+    background-color: #292b4d;
+    border-radius: 0.6em;
+    padding: 2em;
+    box-shadow: 1.2em 2em 3em rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    position: relative;
+}
+
+.modal-search h2 {
+    text-align: left;
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    color: #ffffff;
+    border-bottom: 2px solid #a0a0a0; 
+    padding-bottom: 0.5em;   
+}
+
+.close-search {
+    position: absolute;
+    top: 23px;
+    right: 33px;
+    font-size: 2em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.close-search:hover {
+    color: #c889e6;
+}
+
+.search-container {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.search-container input {
+    font-size: 0.9em;
+    width: 100%;
+    border-radius: 0.3em;
+    background-color: transparent;
+    border: 2px solid #a0a0a0;
+    padding: 0.7em;
+    color: #ffffff;
+}
+
+.search-container input:focus {
+    border-color: #ffffff;
+}
+
+.search-results {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1em;
+    max-height: 15em; /* Limit height for scrollable area */
+    overflow-y: auto; /* Add scrolling */
+}
+
+.search-results li {
+    padding: 0.5em;
+    background-color: #292b4d;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-results li:hover {
+    background-color: #ae71e0;
 }
 
 /* =========== HOME PAGE =========== */
@@ -346,56 +646,102 @@ section hero {
 }
 
 /* =========== BOOK REVIEW MODAL =========== */
-
-/* Modal Styling */
-.modal {
-    display: none; /* Initially hidden */
+.modalReview {
+    display: none;
     position: fixed;
     z-index: 1000;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Dimmed background */
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalReview .review-content {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    max-width: 800px;
+    margin: 0 auto;
 }
   
 /* Modal Content */
-.modal-content {
+.review-content {
     display: flex;
     flex-direction: row;
-    background-color: #fff;
-    border-radius: 8px;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-color: #301934;
+    margin: auto;
+    border-radius: 15px;
+    padding: 30px;
     width: 80%;
-    max-width: 800px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    animation: fadeIn 0.3s;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    background-color: #ae71e0;
+    color: #faf4f4;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #512e63; /* Hover effect */
+}
+
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #faf4f4;
+    font-size: 24px;
+    cursor: pointer;
+}
+  
+.close-button:hover {
+    color: #c889e6;
+}
+
+/* Modal Body */
+.modal-body {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding-top: 40px;
 }
   
 /* Left Section: Book Image */
 .modal-book-cover-container {
     flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 20px;
+    max-width: 30%;
 }
   
-.modal-book-cover {
+.modal-image {
     width: 100%;
-    max-width: 200px;
     height: auto;
-    object-fit: cover;
     border-radius: 8px;
+    object-fit: cover;
 }
   
 /* Right Section: Book Details and Review */
 .modal-details {
     flex: 2;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -403,14 +749,16 @@ section hero {
   
 /* Book Information */
 .modal-book-info h2 {
-    font-size: 1.5rem;
-    color: #452a5a;
-    margin-bottom: 10px;
+    margin: 0;
+    font-size: 1.5em;
+    text-align: left;
+    color: #faf4f4;
 }
   
 .modal-book-info p {
-    font-size: 1rem;
-    color: #666;
+    margin: 0;
+    font-size: 1em;
+    color: #c9b8d7;
 }
   
 /* Review Section */
@@ -418,30 +766,38 @@ section hero {
     width: 100%;
     height: 100px;
     padding: 10px;
-    border: 1px solid #ccc;
+    font-size: 1em;
+    border: 1px solid #512e63; 
     border-radius: 5px;
+    background-color: #c9b8d7; 
+    color: #faf4f4; 
     resize: none;
+}
+
+.review-section textarea::placeholder {
+    color: #666; 
 }
   
 /* Tags Section */
-  .tags input {
+.tags input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    font-size: 0.8em;
+    border: 1px solid #512e63; 
     border-radius: 5px;
+    background-color: #c9b8d7; 
+    color: #faf4f4; 
+}
+
+.tags input::placeholder {
+    color: #666; 
 }
   
 /* Rating Stars */
-  .rating .stars {
-    display: flex;
-    gap: 5px;
+.rating .stars {
+    font-size: 1.5em;
+    color: #666; 
     cursor: pointer;
-}
-  
-.rating .star {
-    font-size: 1.5rem;
-    color: #ccc; /* Default color */
-    transition: color 0.3s;
 }
   
 .rating .star:hover,
@@ -449,36 +805,20 @@ section hero {
     color: #f1c40f; /* Highlighted color */
 }
   
-/* Close Button */
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    color: #2a1b45;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-  
-.close-button:hover {
-    color: #c889e6;
-}
-  
 /* Modal Footer */
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
+    text-align: right;
 }
   
 .save-button {
     padding: 10px 20px;
-    background-color: #4B0082;
-    color: #fff;
+    font-size: 1em;
+    background-color: #ae71e0;
+    color: #faf4f4;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
   
 .save-button:hover {
