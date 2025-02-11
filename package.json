@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
-    "test": "nodemon dbconnection.js"
+    "test": "nodemon index.js"
   },
   "keywords": [],
   "author": "",

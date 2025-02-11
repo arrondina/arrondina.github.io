@@ -10,33 +10,15 @@ function closeLoginModal() {
     const modal = document.getElementById("authModal");
     if (modal) modal.style.display = "none";
 }
-  
-// Close the modal when clicking outside of it
-window.onclick = function (event) {
-    const modal = document.getElementById("authModal");
-    const searchModal = document.getElementById("searchModal");
-    const bookReviewModal = document.getElementById("bookReviewModal");
-
-    if (event.target === modal) {
-        closeLoginModal();
-    }
-
-    if (event.target === searchModal) {
-        closeSearchModal();
-    }
-
-    if (event.target === bookReviewModal) {
-        closeBookReviewModal();
-    }
-};
-
-// ===== Login Functionality ===== //
+ 
+// ===== Local Login Functionality ===== //
 function attachEventListeners() {
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
         loginForm.addEventListener("submit", function (e) {
             e.preventDefault(); // Prevent page refresh
 
+             
             // Get login input values
             const email = document.getElementById("login-email").value.trim();
             const password = document.getElementById("login-password").value.trim();
@@ -46,6 +28,8 @@ function attachEventListeners() {
                 password: "user123",
                 name: "User"
             };
+
+            console.log(email + ' ' + password)
 
             // Validate credentials
             if (email === testUser.email && password === testUser.password) {
@@ -60,14 +44,83 @@ function attachEventListeners() {
         console.error("Login form not found.");
     }
 }
+ 
+document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("login-form");
 
-// ===== UI Updates for Logged-In State ===== //
+    if (loginForm) {
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            console.log("after if (loginForm)")
+
+            //  Ensure elements exist before accessing their values
+            const emailInput = document.getElementById("login-email");
+            const passwordInput = document.getElementById("login-password");
+
+            if (!emailInput || !passwordInput) {
+                console.error("Login form inputs not found.");
+                return;
+            }
+
+            console.log("1")
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            try {
+                console.log("2 - Fetching login API");
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ emailLogin: email, passwordLogin: password }),
+                });
+            
+                console.log("2.5 - Received Response:", response);
+            
+                // ✅ Log response details
+                const text = await response.text();
+                console.log("2.6 - Raw response text:", text);
+            
+                if (!response.ok) {
+                    console.log("3 - Server responded with an error");
+                    console.error("❌ Login failed:", response.status);
+                    alert("Invalid email or password.");
+                    return;
+                }
+            
+                const data = JSON.parse(text); // Convert response to JSON manually
+                console.log("3.5 - Parsed response data:", data);
+            
+                if (data && data.name) {
+                    console.log("4 - Calling showLoggedInState()");
+                    showLoggedInState(data);
+                } else {
+                    console.error("❌ No valid user data received");
+                }
+                console.log("5 - Done with login logic");
+            } catch (error) {
+                console.error("❌ Fetch error:", error);
+                alert("Server error. Please try again.");
+            }
+
+            console.log("1.5 - Script reached the end");
+            
+        });
+        
+    } else {
+        console.error(" Login form not found.");
+    }
+});
+
+// UI Updates for Logged-In State
 function showLoggedInState(user) {
+    console.log("🔹 Updating UI for:", user.name); // Debugging log
+
     // Hide the Login button
     const loginButton = document.getElementById("login-button");
     if (loginButton) loginButton.style.display = "none";
 
-    // Show the Profile button
+    // Show the Profile button with the user’s name
     const profileNav = document.getElementById("profile-nav");
     if (profileNav) {
         profileNav.style.display = "block";
@@ -78,19 +131,14 @@ function showLoggedInState(user) {
     const logNav = document.getElementById("log-nav");
     if (logNav) logNav.style.display = "block";
 
-    // Close the login modal
+    // Close the login modal (if applicable)
     closeLoginModal();
 }
 
-// ===== Check Logged-In State on Page Load ===== //
-window.onload = function () {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-        showLoggedInState(user);
-    } else {
-        loggedOut();
-    }
-};
+function closeLoginModal() {
+    const loginModal = document.getElementById("login-modal");
+    if (loginModal) loginModal.style.display = "none";
+}
 
 function loggedOut() {
     // Show the Login button
@@ -100,82 +148,6 @@ function loggedOut() {
     document.getElementById("profile-nav").style.display = "none";
     document.getElementById("log-nav").style.display = "none";
 }
-
-// ===== Profile Dropdown Handling ===== //
-document.getElementById("profile-button").addEventListener("click", function (e) {
-    e.preventDefault();
-    const dropdown = document.getElementById("profile-dropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-});
-
-// Close the dropdown if clicked outside
-document.addEventListener("click", function (e) {
-    const dropdown = document.getElementById("profile-dropdown");
-    const profileButton = document.getElementById("profile-button");
-    if (!profileButton.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = "none";
-    }
-});
-
-// ===== Logout Handling ===== //
-document.getElementById("logout").addEventListener("click", function () {
-    localStorage.removeItem("user"); // Remove user data from localStorage
-    alert("You have logged out.");
-    loggedOut(); // Reset UI to logged-out state
-});
-
-// ===== Login/Signup Slider Handling ===== //
-document.addEventListener("DOMContentLoaded", () => {
-    const observeModal = () => {
-        const authModal = document.getElementById("authModal");
-
-        // Run slider logic only if the modal is present
-        if (authModal) {
-            // Get elements
-            const loginText = document.querySelector(".title-text .login");
-            const loginForm = document.querySelector("form.login");
-            const signupForm = document.querySelector("form.signup");
-            const loginBtn = document.querySelector("label.login");
-            const signupBtn = document.querySelector("label.signup");
-            const signupLink = document.querySelector("form .signup-link a");
-
-            // Safety checks to ensure elements exist before adding event listeners
-            if (loginText && loginForm && signupForm && loginBtn && signupBtn && signupLink) {
-                // Handle signup button click
-                signupBtn.addEventListener("click", () => {
-                    loginForm.style.marginLeft = "-50%";
-                    loginText.style.marginLeft = "-50%";
-                });
-
-                // Handle login button click
-                loginBtn.addEventListener("click", () => {
-                    loginForm.style.marginLeft = "0%";
-                    loginText.style.marginLeft = "0%";
-                });
-
-                // Handle "Signup now" link click
-                signupLink.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    signupBtn.click();
-                });
-
-                console.log("Login/Signup slider initialized.");
-            } else {
-                console.error("One or more elements for the login/signup slider handling are missing.");
-            }
-        } else {
-            console.warn("authModal not yet loaded. Retrying...");
-            setTimeout(observeModal, 100); // Retry in 100ms
-        }
-    };
-
-    observeModal(); // Start observing the modal
-});
-
-// ===== Search Functionality ===== //
-document.getElementById("log-nav").addEventListener("click", function () {
-    document.getElementById("searchModal").style.display = "block";
-});
 
 // Book API
 const apiKey = "AIzaSyAo-MpqBAect4NxyOvp1AjVN0-39F2Q2wg";
@@ -304,6 +276,118 @@ function saveReview() {
     closeBookReviewModal();
 }
   
+// Function to Reset Stars
+function resetStars() {
+    stars.forEach((star) => star.classList.remove("selected"));
+}
+
+if (typeof window !== "undefined") {
+
+// Close the modal when clicking outside of it
+window.onclick = function (event) {
+    const modal = document.getElementById("authModal");
+    const searchModal = document.getElementById("searchModal");
+    const bookReviewModal = document.getElementById("bookReviewModal");
+
+    if (event.target === modal) {
+        closeLoginModal();
+    }
+
+    if (event.target === searchModal) {
+        closeSearchModal();
+    }
+
+    if (event.target === bookReviewModal) {
+        closeBookReviewModal();
+    }
+};
+
+// ===== Check Logged-In State on Page Load ===== //
+window.onload = function () {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        showLoggedInState(user);
+    } else {
+        loggedOut();
+    }
+};
+
+// ===== Profile Dropdown Handling ===== //
+document.getElementById("profile-button").addEventListener("click", function (e) {
+    e.preventDefault();
+    const dropdown = document.getElementById("profile-dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+});
+
+// Close the dropdown if clicked outside
+document.addEventListener("click", function (e) {
+    const dropdown = document.getElementById("profile-dropdown");
+    const profileButton = document.getElementById("profile-button");
+    if (!profileButton.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+// ===== Logout Handling ===== //
+document.getElementById("logout").addEventListener("click", function () {
+    localStorage.removeItem("user"); // Remove user data from localStorage
+    alert("You have logged out.");
+    loggedOut(); // Reset UI to logged-out state
+});
+
+// ===== Login/Signup Slider Handling ===== //
+document.addEventListener("DOMContentLoaded", () => {
+    const observeModal = () => {
+        const authModal = document.getElementById("authModal");
+
+        // Run slider logic only if the modal is present
+        if (authModal) {
+            // Get elements
+            const loginText = document.querySelector(".title-text .login");
+            const loginForm = document.querySelector("form.login");
+            const signupForm = document.querySelector("form.signup");
+            const loginBtn = document.querySelector("label.login");
+            const signupBtn = document.querySelector("label.signup");
+            const signupLink = document.querySelector("form .signup-link a");
+
+            // Safety checks to ensure elements exist before adding event listeners
+            if (loginText && loginForm && signupForm && loginBtn && signupBtn && signupLink) {
+                // Handle signup button click
+                signupBtn.addEventListener("click", () => {
+                    loginForm.style.marginLeft = "-50%";
+                    loginText.style.marginLeft = "-50%";
+                });
+
+                // Handle login button click
+                loginBtn.addEventListener("click", () => {
+                    loginForm.style.marginLeft = "0%";
+                    loginText.style.marginLeft = "0%";
+                });
+
+                // Handle "Signup now" link click
+                signupLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    signupBtn.click();
+                });
+
+                console.log("Login/Signup slider initialized.");
+            } else {
+                console.error("One or more elements for the login/signup slider handling are missing.");
+            }
+        } else {
+            console.warn("authModal not yet loaded. Retrying...");
+            setTimeout(observeModal, 100); // Retry in 100ms
+        }
+    };
+
+    observeModal(); // Start observing the modal
+});
+
+// ===== Search Functionality ===== //
+document.getElementById("log-nav").addEventListener("click", function () {
+    document.getElementById("searchModal").style.display = "block";
+});
+
 // Star Rating Logic
 const stars = document.querySelectorAll(".star");
 
@@ -324,12 +408,7 @@ stars.forEach((star) => {
         }
     });
 });
-  
-// Function to Reset Stars
-function resetStars() {
-    stars.forEach((star) => star.classList.remove("selected"));
-}
-  
+
 // Add Event Listener to Save Button
 document.querySelector(".save-button").addEventListener("click", saveReview);
 
@@ -350,4 +429,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
+}
+// Export only for Node.js
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = { showLoggedInState };
+}

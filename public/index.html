@@ -24,7 +24,7 @@
     <!-- Navigation Section -->
     <nav class="nav">
         <a href="#" class="logo">
-            <img src="Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
+            <img src="/Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
             <Strong> BookVibe </Strong>
         </a>
 
@@ -103,7 +103,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/1984-George Orwell.jpg" alt="Book Title 2" class="book-cover" />
+                        <img src="/Book Covers/1984-George Orwell.jpg" alt="Book Title 2" class="book-cover" />
                         <div class="book-info">
                             <h3>1984</h3>
                             <p>Genre: Fiction</p>
@@ -116,7 +116,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/Book Design-Nancy Starkman.png" alt="Book Title 2" class="book-cover" />
+                        <img src="/Book Covers/Book Design-Nancy Starkman.png" alt="Book Title 2" class="book-cover" />
                         <div class="book-info">
                             <h3>Book Design</h3>
                             <p>Genre: Design</p>
@@ -129,7 +129,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/I am Number Four-Pittacus Lore.jpg" alt="Book Title 3" class="book-cover" />
+                        <img src="/Book Covers/I am Number Four-Pittacus Lore.jpg" alt="Book Title 3" class="book-cover" />
                         <div class="book-info">
                             <h3>I am Number Four-Pittacus Lore</h3>
                             <p>Genre: Science Fiction</p>
@@ -142,7 +142,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/The Young Wizard-Aaron Loeb.jpg" alt="Book Title 4" class="book-cover" />
+                        <img src="/Book Covers/The Young Wizard-Aaron Loeb.jpg" alt="Book Title 4" class="book-cover" />
                         <div class="book-info">
                             <h3>The Young Wizard</h3>
                             <p>Genre: Fantasy</p>
@@ -155,7 +155,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/The True Love Story-Takehiro Kanegi.jpg" alt="Book Title 5" class="book-cover" />
+                        <img src="/Book Covers/The True Love Story-Takehiro Kanegi.jpg" alt="Book Title 5" class="book-cover" />
                         <div class="book-info">
                             <h3>The True Love Story</h3>
                             <p>Genre: Romance</p>
@@ -184,7 +184,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/HP Prisoner of Azkaban-JK Rowling.png" alt="Book Title 1" class="book-cover" />
+                        <img src="/Book Covers/HP Prisoner of Azkaban-JK Rowling.png" alt="Book Title 1" class="book-cover" />
                         <div class="book-info">
                             <h3>Harry Potter and the Prisoner of Azkaban</h3>
                             <p>Genre: Fantasy</p>
@@ -197,7 +197,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/Ikigai-Hector Garcia.jpg" alt="Book Title 2" class="book-cover" />
+                        <img src="/Book Covers/Ikigai-Hector Garcia.jpg" alt="Book Title 2" class="book-cover" />
                         <div class="book-info">
                             <h3>Ikigai</h3>
                             <p>Genre: Self-help</p>
@@ -210,7 +210,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/HP Chamber of Secrets-JK Rowling.png" alt="Book Title 3" class="book-cover" />
+                        <img src="/Book Covers/HP Chamber of Secrets-JK Rowling.png" alt="Book Title 3" class="book-cover" />
                         <div class="book-info">
                             <h3>Harry Potter and the Chamber of Secrets</h3>
                             <p>Genre: Fantasy</p>
@@ -223,7 +223,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/Soul-Olivia Wilson.jpg" alt="Book Title 4" class="book-cover" />
+                        <img src="/Book Covers/Soul-Olivia Wilson.jpg" alt="Book Title 4" class="book-cover" />
                         <div class="book-info">
                             <h3>Soul</h3>
                             <p>Genre: Fiction</p>
@@ -236,7 +236,7 @@
                         <div class="book-header">
                             <span></span>
                         </div>
-                        <img src="Book Covers/War and Peace-Leo Tolstoy.jpg" alt="Book Title 5" class="book-cover" />
+                        <img src="/Book Covers/War and Peace-Leo Tolstoy.jpg" alt="Book Title 5" class="book-cover" />
                         <div class="book-info">
                             <h3>War and Peace</h3>
                             <p>Genre: Fiction</p>
@@ -311,10 +311,10 @@
                     <!-- Login Form -->
                     <form id="login-form" class="login" method="post" action="/login">
                         <div class="field">
-                            <input type="text" placeholder="Email Address" name="emailLogin" required>
+                            <input type="text" id="login-email" placeholder="Email Address" name="emailLogin" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" name="passwordLogin" required>
+                            <input type="password" id="login-password" placeholder="Password" name="passwordLogin" required>
                         </div>
                         <div class="pass-link"><a href="#">Forgot password?</a></div>
                         <div class="field-btn">
@@ -333,10 +333,10 @@
                             <input type="password" placeholder="Password" name="passwordSignup" required>
                         </div>
                         <!-- put a condition in dbconnection.js where if passwordSignup != confirmPsignUp, then try again  -->
-                        <!-- 
+                         
                         <div class="field">
-                            <input type="password" placeholder="Confirm password" required>
-                        </div>-->
+                            <input type="text" placeholder="First Name" name="nameSignup" required>
+                        </div>
                         <div class="field-btn">
                             <div class="btn-layer"></div>
                             <input type="submit" value="Signup">
@@ -689,18 +689,18 @@
         </div>
     </div>
 
-    <!-- Login -->
+    <!-- Login 
     <script>
         fetch("login-modal.html")
         .then((response) => response.text())
         .then((html) => {
             document.body.insertAdjacentHTML("beforeend", html);
-            attachEventListeners();
+            logg();
         })
         .catch((error) => {
             console.error("Error loading login modal:", error);
         });
-    </script>
+    </script>-->
 
     <!-- Book Review Modal -->
     <div id="bookReviewModal" class="modalReview">
@@ -758,7 +758,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/js/script.js" defer></script>
 
 </body>
 </html>
