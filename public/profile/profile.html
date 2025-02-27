@@ -4,27 +4,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width" initial-scale=1.0>
-    <title>About BookVibe</title>
+    <title>BookVibe</title>
 
     <!--================ CSS ======================-->  
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/profile.css" rel="stylesheet" type="text/css">
+        
     <!--================ FAVICON ======================-->  
-    <link rel="shortcut icon" href="Images/logo.png" type="image/png">
+    <link rel="shortcut icon" href="/public/Images/logo.png" type="image/png">
 
     <!--================ REMIXICONS ======================-->  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="9afza5vpuemopj82ffu65gt9sh9v8h9s">
 
     <!--================ SWIPER CSS ======================-->  
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
 </head>
 
 <body>
     <!-- Navigation Section -->
     <nav class="nav">
         <a href="#" class="logo">
-            <img src="Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
-            BookVibe
+            <img src="/Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
+            <Strong> BookVibe </Strong>
         </a>
 
         <div class="bx bx-menu" id="menu-icon"> &#9776;</div>
@@ -32,25 +34,25 @@
         <div class="navmenu">
             <ul class="navlist">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link">
+                    <a href="/" class="nav-link">
                         <i class="ri-home-3-line"></i>
                         <span>Home</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="book-reviews.html" class="nav-link">
+                    <a href="/book-reviews" class="nav-link">
                         <i class="ri-shield-star-line"></i>
                         <span>Book Reviews</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="recommendations.html" class="nav-link">
+                    <a href="/recommendations" class="nav-link">
                         <i class="ri-book-3-line"></i>
                         <span>Recommendations</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link.activate">
+                    <a href="/about" class="nav-link.activate">
                         <i class="ri-team-line"></i>
                         <span>About</span>
                     </a>
@@ -61,7 +63,7 @@
                         <span>Login</span>
                     </a>
                 </li>
-
+                
                 <!-- Log Button -->
                 <li class="nav-item" id="log-nav" style="display: none;">
                     <a href="#" id="log-button" onclick="openSearchModal()">Log Review</a>
@@ -71,7 +73,7 @@
                 <li class="nav-item" id="profile-nav" style="display: none; position: relative;">
                     <a href="#" id="profile-button">Welcome, User</a>
                     <div id="profile-dropdown" class="dropdown-menu" style="display: none;">
-                        <a href="/profile/profile.html" id="view-profile">Profile</a>
+                        <a href="#" id="view-profile">Profile</a>
                         <a href="#" id="logout">Logout</a>
                     </div>
                 </li>
@@ -80,69 +82,70 @@
     </nav>
 
     <!-- Main Content Section -->
-    <main id="page-main">
-        <!-- Header Section -->
-        <header class="header about-header" id="header">
-            <div class="header-content">
-                <h1>About BookVibe</h1>
-            </div>
-        </header>
-
-        <!-- About Section -->
-        <section class="about">
-            <div class="about-container">
-                <p>Welcome to BookVibe! We are a passionate community of book lovers, offering an interactive platform for users to review, rate, and discover new books.</p>
-                <p>Whether you're looking for recommendations, want to share your thoughts on your latest read, or want to connect with other book enthusiasts, BookVibe is your go-to destination for all things books!</p>
-            </div>
-        </section>
-
-        <!-- Mission Section -->
-        <section class="mission">
-            <div class="about-container">
-                <h2>Our Mission</h2>
-                <p>At BookVibe, our mission is to foster a love for reading by connecting readers with the books that resonate with them. We aim to create a platform where users can discover books, share their thoughts, and grow their literary journey together.</p>
-            </div>
-        </section>
-
-        <!-- How To Get Started Section -->
-        <section class="started">
-            <div class="about-container">
-                <h2>How To Get Started</h2>
-                <p>Create an account, add your favorite books to your personal library, leave a review, and connect with fellow readers. </p>
-                <p>You can also browse curated lists and get recommendations based on your preferences.</p>
-            </div>
-        </section>
-
-        <!-- Together We Read Section -->
-        <section class="together">
-            <div class="about-container">
-                <h2>Together We Read, Together We Grow</h2>
-                <p>At BookVibe, we believe in the power of community. </p>
-                <p>Connect with other readers, engage in discussions, and make meaningful connections with people who share your passion for books.</p>
-            </div>
-        </section>
-
-        <!-- Team Section -->
-        <section class="team">
-            <div class="about-container">
-                <h2>Meet the Team!</h2>
-                <div class="team-member">
-                    <img src="/team-members/ara.png" alt="Team Member 1">
-                    <h3>Arabella Pabular</h3>
-                    <p>Founder & CEO</p>
+    <main id="pageMain">
+        <div class="layout-account"> 
+            <!-- Sidebar -->
+            <div class="layout-account__sidebar">
+                <div class="sideBar-personal">
+                    <div class="sideBar-personal__name">
+                        <p>Username</p>
+                        <div>
+                            <img alt="social logo" src="https://mw-cdn.apac.beiniz.biz/Images/google-web.png">
+                        </div>
+                    </div>
+                    <p class="sideBar-personal__mail">user@gmail.com</p>
+                    <p class="sideBar-personal__phone"></p>
                 </div>
-                <div class="team-member">
-                    <img src="/team-members/rosh.jpg" alt="Team Member 2">
-                    <h3>Aldrich Rondina</h3>
-                    <p>Lead Developer</p>
-                </div>
-                <div class="team-member">
-                    <img src="/team-members/nik.jpg" alt="Team Member 3">
-                    <h3>Nick Lim</h3>
-                    <p>Content Strategist</p>
+            
+                <div class="sideBar-pagesList">
+                    <p class="sideBar-pagesList__item sideBar-pagesList__item--activePage">
+                        <span style="width: 100%; cursor: pointer;">Account</span>
+                        <span></span>
+                    </p>
+                    <p class="sideBar-pagesList__item">
+                        <a href="/profile/books" style="width: 100%;"><span>Books</span></a>
+                    </p>
+                    <p class="sideBar-pagesList__item">
+                        <a href="/profile/reviews" style="width: 100%;"><span>Reviews</span></a>
+                    </p>
+                    <p class="sideBar-pagesList__item">
+                        <a href="/profile/wishlist" style="width: 100%;"><span>Wishlist</span></a>
+                    </p>
                 </div>
             </div>
-        </section>
+
+            <!-- Main Page Content -->
+            <div class="layout-account__mainpage">
+                <div class="mainPageLayout">
+                    <div class="mainPageLayout-title">
+                        <span>Profile</span>
+                    </div>
+                    <div>
+                        <div>
+                            <div class="profileInfo">
+                                <p class="profileInfo-title">Name</p>
+                                <div class="profileInfo-wrapper">
+                                    <p class="profileInfo-content username">Username</p>
+                                    <button class="profileInfo-button">Edit</button>
+                                </div>
+                            </div>
+                            <div class="profileInfo">
+                                <p class="profileInfo-title">Email address</p>
+                                <div class="profileInfo-wrapper">
+                                    <p class="profileInfo-content email">user@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="profileInfo">
+                                <p class="profileInfo-title">Mobile number</p>
+                                <div class="profileInfo-wrapper">
+                                    <p class="profileInfo-content">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer Section -->
@@ -281,9 +284,26 @@
             </div>
         </div>
     </div>
-    
-    <script src="js/script.js" defer></script>
-    <script src="js/login-modal.js"></script>
+
+    <!-- Edit Name Modal -->
+    <div id="editNameModal" class="modalEdit">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Name</h2>
+            <div class="edit-container">
+                <input
+                    type="text"
+                    placeholder="Enter new name"
+                    id="new-username"
+                />
+            </div>
+            <button class="save-button" onclick="saveNewName()">Save</button>
+        </div>
+    </div>
+
+    <script src="/js/script.js" defer></script>
+    <script src="/js/profile.js"></script>
 
 </body>
+
 </html>

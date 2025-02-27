@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-const userRoutes = require('../Routes/userRoutes.js');
-const User = require('../Models/userModel.js')
+const userRoutes = require('./Routes/userRoutes.js');
+const User = require('./models/userModel.js')
 
 const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/BVDB?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -19,7 +19,7 @@ async function connectDB() {
         await mongoose.connect(uri);
         console.log("Connected the DBBBBBBB");
 
-        app.use(express.static(path.join(__dirname, "")));
+        app.use(express.static(path.join(__dirname, 'public')));
 
         app.post("/signup", async function(req, res) {
             try {
@@ -60,14 +60,38 @@ async function connectDB() {
                     return res.status(401).json({ error: "User not found" });
                 }
         
-                console.log("✅ User found:", user.name);
-                res.json({ name: user.name });
+                console.log("✅ User found:", user.name, user.email);
+                res.json({ name: user.name, email: user.email });
+                
             } catch (error) {
                 console.error("❌ Error finding user:", error);
                 res.status(500).json({ error: "Server error" });
             }
         });
 
+        app.get('/', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'index.html'));
+        });
+
+        // Book Reviews Page
+        app.get('/book-reviews', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'book-reviews.html'));
+        });
+
+        // Recommendations Page
+        app.get('/recommendations', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'recommendations.html'));
+        });
+
+        // About Page
+        app.get('/about', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'about.html'));
+        });
+
+        // Profile Page
+        app.get('/profile', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'profile', 'profile.html'));
+        });
 
         app.listen(5000, function() {
             console.log("server is running on 5000")
@@ -79,3 +103,4 @@ async function connectDB() {
 } 
 
 module.exports = { connectDB }
+connectDB();

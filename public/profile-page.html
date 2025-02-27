@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" initial-scale=1.0>
+    <title>BookVibe</title>
+
+    <!--================ CSS ======================-->  
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+        
+    <!--================ FAVICON ======================-->  
+    <link rel="shortcut icon" href="Images/logo.png" type="image/png">
+
+    <!--================ REMIXICONS ======================-->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" integrity="9afza5vpuemopj82ffu65gt9sh9v8h9s">
+
+    <!--================ SWIPER CSS ======================-->  
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+</head>
+
+<body>
+    <!-- Navigation Section -->
+    <nav class="nav">
+        <a href="#" class="logo">
+            <img src="/Images/logo.png" alt="BookVibe Logo" style="width: 40px; height: 60px; vertical-align: middle;">
+            <Strong> BookVibe </Strong>
+        </a>
+
+        <div class="bx bx-menu" id="menu-icon"> &#9776;</div>
+
+        <div class="navmenu">
+            <ul class="navlist">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="ri-home-3-line"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="book-reviews.html" class="nav-link">
+                        <i class="ri-shield-star-line"></i>
+                        <span>Book Reviews</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="recommendations.html" class="nav-link">
+                        <i class="ri-book-3-line"></i>
+                        <span>Recommendations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link.activate">
+                        <i class="ri-team-line"></i>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="login-button">
+                        <i class="ri-login-box-line"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+                
+                <!-- Log Button -->
+                <li class="nav-item" id="log-nav" style="display: none;">
+                    <a href="#" id="log-button" onclick="openSearchModal()">Log Review</a>
+                </li>
+                
+                <!-- Profile Button -->
+                <li class="nav-item" id="profile-nav" style="display: none; position: relative;">
+                    <a href="#" id="profile-button">Welcome, User</a>
+                    <div id="profile-dropdown" class="dropdown-menu" style="display: none;">
+                        <a href="#" id="view-profile">Profile</a>
+                        <a href="#" id="logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main id="pageMain">
+        <div class="layout-account"> 
+            <!-- Sidebar -->
+            <div class="layout-account__sidebar">
+                <div class="sideBar-personal">
+                <div class="sideBar-personal__name">
+                    <p>Username</p>
+                    <div>
+                        <img alt="social logo" src="https://mw-cdn.apac.beiniz.biz/Images/google-web.png">
+                    </div>
+                </div>
+                <p class="sideBar-personal__mail">user@gmail.com</p>
+                <p class="sideBar-personal__phone"></p>
+            </div>
+                <div class="sideBar-pagesList">
+                <p class="sideBar-pagesList__item sideBar-pagesList__item--activePage">
+                    <span style="width: 100%; cursor: pointer;">Account</span>
+                    <span>
+                    </span>
+                </p>
+                <p class="sideBar-pagesList__item">
+                    <a href="/profile/books" style="width: 100%;"><span>Books</span></a>
+                </p>
+                <p class="sideBar-pagesList__item">
+                    <a href="/profile/reviews" style="width: 100%;"><span>Reviews</span></a>
+                </p>
+                <p class="sideBar-pagesList__item">
+                    <a href="/profile/wishlist" style="width: 100%;"><span>Wishlist</span></a>
+                </p>
+            </div>
+            </div>
+            <!-- Main Page Content -->
+            <div class="layout-account__mainpage">
+                <div class="mainPageLayout">
+                <div class="mainPageLayout-title">
+                    <span>Profile</span>
+                </div>
+                <div>
+                    <div>
+                        <div class="profileInfo">
+                            <p class="profileInfo-title">Name</p>
+                            <div class="profileInfo-wrapper">
+                                <p class="profileInfo-content">Username</p>
+                                <button class="profileInfo-button">Edit</button>
+                            </div>
+                        </div>
+                        <div class="profileInfo">
+                            <p class="profileInfo-title">Email address</p>
+                            <div class="profileInfo-wrapper">
+                                <p class="profileInfo-content">user@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="profileInfo">
+                            <p class="profileInfo-title">Mobile number</p>
+                            <div class="profileInfo-wrapper">
+                                <p class="profileInfo-content">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <!-- Footer main -->
+        <section class="ft-main">
+          <div class="ft-main-item">
+            <h2 class="ft-title">BookVibe</h2>
+            <p>BookVibe is an interactive platform</p>
+            <p>for book enthusiasts to review, rate,</p> 
+            <p>and discuss their favorite reads. We</p>
+            <p>provide personalized recommendations</p> 
+            <p>based on your reading preferences.</p>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">About Us</h2>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">Work With Us</h2>
+            <ul>
+              <li><a href="#">Authors</a></li>
+              <li><a href="#">Advertise</a></li>
+              <li><a href="#">API</a></li>
+            </ul>
+          </div>
+          
+          <div class="ft-main-item">
+            <h2 class="ft-title">Stay Updated</h2>
+            <p>Subscribe to our newsletter to get our latest news.</p>
+            <form class="ft-form">
+              <input type="email" name="email" placeholder="Enter email address" required>
+              <input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </section>
+      
+        <!-- Footer social -->
+        <section class="ft-social">
+          <ul class="ft-social-list">
+            <li><a href="https://www.facebook.com/" class="footer-social-link" aria-label="Facebook"><i class="ri-facebook-circle-line"></i></a></li>
+            <li><a href="https://x.com/" class="footer-social-link" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a></li>
+            <li><a href="https://www.instagram.com/" class="footer-social-link" aria-label="Instagram"><i class="ri-instagram-line"></i></a></li>
+          </ul>
+        </section>
+      
+        <!-- Footer legal -->
+        <section class="ft-legal">
+          <ul class="ft-legal-list">
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <p>&copy; 2024 BookVibe. All rights reserved.</p>
+          </ul>
+        </section>
+    </footer>
+
+    <script src="/js/script.js" defer></script>
+
+</body>
+</html>

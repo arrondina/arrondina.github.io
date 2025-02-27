@@ -341,10 +341,202 @@ form .field input:focus::placeholder{
     cursor: pointer;
 }
 
+/* ============= PROFILE PAGE ==============*/
+/* Main Layout */
+#pageMain {
+    min-height: calc(100vh - 347px);
+    overflow-x: hidden;
+}
+
+.layout-account {
+    display: flex;
+    height: 100%;
+    min-height: calc(100vh - 347px);
+}
+
+/* Sidebar */
+.layout-account__sidebar {
+    width: 328px;
+    background-color: #2A103E;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    flex-grow: 0;
+    
+}
+
+.sideBar-personal {
+    padding: 70px 0 30px 70px;
+    width: 100%;
+    border-bottom: .5px solid hsla(0, 0%, 100%, .2);
+}
+
+.sideBar-personal__name {
+    display: flex;
+    color: #fff;
+    margin-bottom: 10px;
+    gap: 5px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.sideBar-personal .sideBar-personal__name p {
+    white-space: nowrap;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sideBar-personal img {
+    max-height: 24px;
+    max-width: 60px;
+  
+}
+
+.sideBar-personal__mail, 
+.sideBar-personal__phone {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.sideBar-pagesList {
+    padding: 30px 0 30px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.sideBar-pagesList__item {
+    padding: 10px 0;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.sideBar-pagesList__item a {
+    color: #fff;
+}
+
+.sideBar-pagesList__item--activePage {
+    font-weight: 700;
+}
+
+.sideBar-pagesList__item>span:last-child {
+    display: none;
+}
+
+.sideBar-pagesList__item:hover {
+    color: #fff;
+}
+
+/* Main Content */
+.layout-account__mainpage {
+    position: relative;
+    padding: 90px 80px;
+    width: calc(100% - 328px);
+}
+
+.mainPageLayout {
+    width: 100%;
+}
+
+.mainPageLayout-title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 125%;
+    text-transform: uppercase;
+    color: var(--PrimaryWhite);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
+.profileInfo:first-child {
+    padding-top: 0;
+}
+
+.profileInfo {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 0;
+    border-bottom: .5px solid hsla(0, 0%, 100%, .2);
+}
+
+.profileInfo .profileInfo-title {
+    font-weight: 700;
+    color: var(--PrimaryWhite);
+}
+
+.profileInfo-wrapper {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--PrimaryWhite);
+}
+
+.profileInfo-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #4A2C5C;
+    padding: 10px 0;
+    align-items: center;
+}
+
+.profileInfo-title {
+    color: #A8A3B5;
+}
+
+.profileInfo-content {
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 21px;
+}
+
+.profileInfo-button {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 150%;
+    white-space: nowrap;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--PrimaryWhite);
+}
+
+.profileInfo-button:hover {
+    background-color: #3B0068;
+}
+
 /* ============= MAIN CONTENT ==============*/
 main {
     margin-top: 100px; /* Ensures main content doesn't overlap with fixed nav */
-    padding: 20px 0;
 }
 
 #menu-icon {
@@ -962,7 +1154,7 @@ section hero {
 
 /* ============= ABOUT PAGE ==============*/
 .about-header {
-    background: url('Images/library.jpg') no-repeat center center;
+    background: url('/Images/library.jpg') no-repeat center center;
     background-size: cover;
     height: 400px;
     display: flex;

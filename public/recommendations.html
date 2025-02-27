@@ -64,14 +64,14 @@
 
                 <!-- Log Button -->
                 <li class="nav-item" id="log-nav" style="display: none;">
-                    <a href="#" id="log-button" onclick="openLogModal()">Log Review</a>
+                    <a href="#" id="log-button" onclick="openSearchModal()">Log Review</a>
                 </li>
                 
                 <!-- Profile Button -->
                 <li class="nav-item" id="profile-nav" style="display: none; position: relative;">
                     <a href="#" id="profile-button">Welcome, User</a>
                     <div id="profile-dropdown" class="dropdown-menu" style="display: none;">
-                        <a href="#" id="view-profile">Profile</a>
+                        <a href="/profile/profile.html" id="view-profile">Profile</a>
                         <a href="#" id="logout">Logout</a>
                     </div>
                 </li>
@@ -586,20 +586,84 @@
         </section>
     </footer>
 
-    <!-- Login -->
-    <script>
-        fetch("login-modal.html")
-        .then((response) => response.text())
-        .then((html) => {
-            document.body.insertAdjacentHTML("beforeend", html);
-            attachEventListeners();
-        })
-        .catch((error) => {
-            console.error("Error loading login modal:", error);
-        });
-    </script>
+    <!-- Search Modal -->
+    <div id="searchModal" class="modalSearch">
+        <div class="modal-search">
+            <span class="close-search" onclick="closeSearchModal()">&times;</span>
+            <h2>Add to your books...</h2>
+            <div class="search-container">
+                <input
+                    type="text"
+                    placeholder="Type the book title..."
+                    id="book-name"
+                    oninput="searchBooks()"
+                />
+            </div>
 
-    <script src="script.js"></script>
+            <ul id="searchResults" class="search-results">
+                <!-- Dynamic list of books will appear here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Book Review Modal -->
+    <div id="bookReviewModal" class="modalReview">
+        <div class="review-content">
+            <button class="back-button" onclick="goBackToSearch()">← Back</button>
+            <span class="close-button" onclick="closeBookReviewModal()">&times;</span>
+
+            <div class="modal-body">
+                <!-- Left Section: Book Image -->
+                <div class="modal-book-cover-container">
+                    <img id="modal-image" src="" alt="Book Cover" class="modal-image">
+                </div>
+            
+                <!-- Right Section: Book Details and Review -->
+                <div class="modal-details">
+                    <!-- Book Info -->
+                    <div class="modal-book-info">
+                        <h2 id="book-title" class="modal-title">Book Title</h2>
+                        <p>Author: <span id="book-author" class="modal-author">Author Name</span></p>
+                    </div>
+    
+                    <!-- Review Section -->
+                    <div class="review-section">
+                        <label>
+                            <input type="checkbox" id="finishedReading"> Finished Reading
+                        </label>
+                        <textarea id="review" placeholder="Add a review..."></textarea>
+                    </div>
+    
+                    <!-- Tags Section -->
+                    <div class="tags">
+                        <label for="tags">Tags:</label>
+                        <input type="text" id="tags" placeholder="Press Enter to create tags">
+                    </div>
+    
+                    <!-- Rating Section -->
+                    <div class="rating">
+                        <label for="rating">Rating:</label>
+                        <div class="stars" id="rating-stars">
+                            <!-- 5 Clickable Stars -->
+                            <span class="star" data-value="1">&#9733;</span>
+                            <span class="star" data-value="2">&#9733;</span>
+                            <span class="star" data-value="3">&#9733;</span>
+                            <span class="star" data-value="4">&#9733;</span>
+                            <span class="star" data-value="5">&#9733;</span>
+                        </div>
+                    </div>
+    
+                    <!-- Save Button -->
+                    <div class="modal-footer">
+                        <button class="save-button" onclick="saveReview()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/script.js"></script>
+    <script src="js/login-modal.js"></script>
 
 </body>
 </html>

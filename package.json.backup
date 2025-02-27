@@ -1,0 +1,27 @@
+{
+  "name": "web-tech-app-group-3",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arrondina/Web-Tech-App-Group-3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arrondina/Web-Tech-App-Group-3/issues"
+  },
+  "homepage": "https://github.com/arrondina/Web-Tech-App-Group-3#readme",
+  "description": "",
+  "dependencies": {
+    "mongodb": "^6.12.0",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  }
+}
