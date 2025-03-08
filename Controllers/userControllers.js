@@ -1,4 +1,4 @@
-const User = require('../Models/userModel');
+const User = require('./Models/userModel');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = require('express')()

@@ -204,6 +204,8 @@ function closeSearchModal() {
     }
 }
 
+let savedReviewBook = null
+
 // Search Books using Google Books API
 async function searchBooks() {
     const query = document.getElementById("book-name").value; // Search input
@@ -243,12 +245,15 @@ async function searchBooks() {
     }
 }
 
+
+
 // ===== Book Review Modal ===== //
 function openBookReview(book) {
     // Extract details
     const title = book.volumeInfo.title || "No Title Available";
     const author = book.volumeInfo.authors ? book.volumeInfo.authors.join(", ") : "No Author Available";
     const thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "";
+    const publishedYear = book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.split("-")[0] : "No Year";
   
     // Set book details in the review modal
     document.getElementById("book-title").textContent = title;
@@ -258,6 +263,11 @@ function openBookReview(book) {
     // Display the modal
     const bookReviewModal = document.getElementById("bookReviewModal");
     bookReviewModal.style.display = "flex";
+    savedReviewBook = {
+        title: book.volumeInfo.title || "No Title Available",
+        author: book.volumeInfo.authors ? book.volumeInfo.authors.join(", ") : "No Author Available",
+        publishedYear: book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.split("-")[0] : "No Year"
+    };
 }
   
 // Function to Close the Modal
@@ -282,16 +292,45 @@ function goBackToSearch() {
 }
   
 // Save Review Functionality
-function saveReview() {
+async function saveReview() {
+    const user = JSON.parse(localStorage.getItem("user")).name;
     const finishedReading = document.getElementById("finishedReading").checked;
     const review = document.getElementById("review").value;
     const tags = document.getElementById("tags").value.split(",");
     const rating = Array.from(document.querySelectorAll("#rating-stars .star.selected")).length;
     
-    if (reviewText.trim() === "") {
+    if (review.trim() === "") {
       alert("Please write a review before saving!");
       return;
     }
+
+    const reviewData = {
+        user,
+        finishedReading,
+        reviewContent: review,
+        book: savedReviewBook,
+        tags,
+        rating
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/bv/reviews/saveReview", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reviewData)
+        });
+
+        const result = await response.json();
+        console.log("THIS IS THE RESULT OF THE SAVING OF THE REVIEW" +result);
+        alert(result.message);
+
+    } catch (error) {
+        console.error("Error saving review:" , error);
+    }
+
+    console.log("Review Data", reviewData)
     
     console.log("Review Saved:");
     console.log("Finished Reading:", finishedReading);
@@ -302,6 +341,7 @@ function saveReview() {
     alert("Review saved successfully!");
     closeBookReviewModal();
 }
+
 
 // Star Rating Logic
 const stars = document.querySelectorAll(".star");

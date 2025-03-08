@@ -2,14 +2,32 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-const userRoutes = require('./Routes/userRoutes.js');
+
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com"], // Allows inline scripts
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://unpkg.com"], // Allows Google Fonts
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://unpkg.com", "data:"], // Allows fonts from Google
+        imgSrc: ["'self'", "data:", "https://books.google.com", "https://images.unsplash.com"],
+        connectSrc: ["'self'", "https://www.googleapis.com"], // ✅ Allow Google APIs
+      },
+    })
+  );
+
+const reviewRoutes = require('./Routes/reviewRoutes.js');
 const User = require('./models/userModel.js')
 
 const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/BVDB?retryWrites=true&w=majority&appName=Cluster0";
@@ -77,6 +95,8 @@ async function connectDB() {
         app.get('/book-reviews', (req, res) => {
             res.sendFile(path.join(__dirname, 'public', 'book-reviews.html'));
         });
+
+        app.use('/bv/reviews', reviewRoutes);
 
         // Recommendations Page
         app.get('/recommendations', (req, res) => {
