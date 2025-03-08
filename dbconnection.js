@@ -7,12 +7,16 @@ const cors = require('cors');
 
 const app = express();
 
+require('dotenv').config();
+const session = require('express-session');
+const { passport, sessionMiddleware } = require('./auth');
+
 app.use(cors());app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-
+// Helmet JS
 app.use(
     helmet.contentSecurityPolicy({
       directives: {
@@ -28,6 +32,13 @@ app.use(
   );
 
 const reviewRoutes = require('./Routes/reviewRoutes.js');
+app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
+const userRoutes = require('./routes/userRoutes.js');
+app.use(userRoutes);
+
 const User = require('./models/userModel.js')
 
 const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/BVDB?retryWrites=true&w=majority&appName=Cluster0";
@@ -39,52 +50,32 @@ async function connectDB() {
 
         app.use(express.static(path.join(__dirname, 'public')));
 
-        app.post("/signup", async function(req, res) {
-            try {
-                const { emailSignup, passwordSignup, nameSignup } = req.body;
-            
-                // Check if user already exists
-                const existingUser = await User.findOne({ email: emailSignup });
-                if (existingUser) {
-                    return res.status(400).json({ error: "User already exists" });
-                }
-            
-                //Create new user
-                const newUser = new User({
-                    email: emailSignup,
-                    password: passwordSignup, // Hash this
-                    name: nameSignup,
-                });
+        app.use("/", userRoutes);
 
-                await newUser.save();
-                console.log("New user signed up:", newUser.name);
+        // Google Login Route
+        app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-                res.redirect("/");
-            } catch (error) {
-                console.error("Signup error: ", error);
-                res.status(500).json({error: "Server error"});
+        // Google OAuth Callback
+        app.get('/auth/google/callback',
+            passport.authenticate('google', { failureRedirect: '/' }),
+            (req, res) => {
+                console.log("✅ Google Login Successful:", req.user);
+
+                res.redirect(`/auth/success?name=${encodeURIComponent(req.user.name)}&email=${encodeURIComponent(req.user.email)}`); // Redirect to homepage after successful login
             }
-        });
+        );
 
-        // Login Route - Validate user credentials
-        app.post('/login', async function(req, res) {
-            console.log("🔵 Incoming login request:", req.body);
-        
-            try {
-                const user = await User.findOne({ email: req.body.emailLogin });
-        
-                if (!user) {
-                    console.log("❌ No user found with email:", req.body.emailLogin);
-                    return res.status(401).json({ error: "User not found" });
-                }
-        
-                console.log("✅ User found:", user.name, user.email);
-                res.json({ name: user.name, email: user.email });
-                
-            } catch (error) {
-                console.error("❌ Error finding user:", error);
-                res.status(500).json({ error: "Server error" });
-            }
+        // Route to handle successful login
+        app.get('/auth/success', (req, res) => {
+            res.send(`
+                <script>
+                    localStorage.setItem("user", JSON.stringify({
+                        name: "${req.query.name}",
+                        email: "${req.query.email}"
+                    }));
+                    window.location.href = "/index.html"; // Redirect to homepage
+                </script>
+            `);
         });
 
         app.get('/', (req, res) => {
@@ -109,13 +100,51 @@ async function connectDB() {
         });
 
         // Profile Page
-        app.get('/profile', (req, res) => {
+        app.get('/profile', isAuthenticated, (req, res) => {
             res.sendFile(path.join(__dirname, 'public', 'profile', 'profile.html'));
+        });
+
+        // Update Name
+        app.put("/update-name", async (req, res) => {
+            try {
+                const { email, newName } = req.body;
+                
+                const updatedUser = await User.findOneAndUpdate(
+                    { email: email }, // Find user by email
+                    { $set: { name: newName } }, // Update the name field
+                    { new: true } // Return updated document
+                );
+        
+                if (!updatedUser) {
+                    return res.status(404).json({ error: "User not found" });
+                }
+        
+                res.json({ success: true, message: "Name updated successfully", updatedUser });
+            } catch (error) {
+                console.error("Error updating name:", error);
+                res.status(500).json({ error: "Server error" });
+            }
         });
 
         app.listen(5000, function() {
             console.log("server is running on 5000")
         })
+
+        // Logout Route
+        app.get('/logout', (req, res) => {
+            req.logout(function (err) {
+                if (err) return next(err);
+                res.redirect('/');
+            });
+        });
+
+        // Check Authentication Middleware
+        function isAuthenticated(req, res, next) {
+            if (req.isAuthenticated()) {
+                return next();
+            }
+            res.redirect('/');
+        }
 
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);

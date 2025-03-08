@@ -90,6 +90,16 @@ function showLoggedInState(user) {
     closeLoginModal();
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        console.log("🔹 User found in localStorage:", user);
+        showLoggedInState(user);
+    } else {
+        console.log("❌ No user data found.");
+    }
+});
+
 function loggedOut() {
     // Show the Login button
     document.getElementById("login-button").style.display = "block";

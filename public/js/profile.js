@@ -53,20 +53,40 @@ window.addEventListener("click", function (event) {
 });
 
 // Save New Name
-function saveNewName() {
+async function saveNewName() {
     const newName = document.getElementById("new-username").value.trim();
     
     if (newName !== "") {
-        // Update the displayed username
-        document.querySelector(".profileInfo-content.username").textContent = newName;
-
-        // Update localStorage
         let user = JSON.parse(localStorage.getItem("user"));
-        user.name = newName;
-        localStorage.setItem("user", JSON.stringify(user));
 
-        // Close Modal
-        closeEditModal();
+        try {
+            const response = await fetch("/update-name", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email, newName: newName })
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update name in the database.");
+            }
+
+            // Update the displayed username
+            const firstName = newName.split(" ")[0];
+
+            document.querySelector("#profile-button").textContent = `Welcome, ${firstName}`;
+            document.querySelector(".sideBar-personal__name p").textContent = newName;
+            document.querySelector(".profileInfo-content.username").textContent = newName;
+
+            // Update localStorage
+            user.name = newName;
+            localStorage.setItem("user", JSON.stringify(user));
+
+            alert("Name updated successfully!");
+            closeEditModal();
+        } catch (error) {
+            console.error("Error updating name:", error);
+            alert("Failed to update name. Please try again.");
+        }
     } else {
         alert("Please enter a valid name.");
     }
