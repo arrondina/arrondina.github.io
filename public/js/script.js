@@ -276,7 +276,9 @@ function openBookReview(book) {
     savedReviewBook = {
         title: book.volumeInfo.title || "No Title Available",
         author: book.volumeInfo.authors ? book.volumeInfo.authors.join(", ") : "No Author Available",
-        publishedYear: book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.split("-")[0] : "No Year"
+        publishedYear: book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.split("-")[0] : "No Year",
+        genre: book.volumeInfo.genre ? book.volumeInfo.genre.join (", ") : "No genres Available",
+        thumbnail: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "default-cover.jpg"
     };
 }
   
@@ -320,7 +322,8 @@ async function saveReview() {
         reviewContent: review,
         book: savedReviewBook,
         tags,
-        rating
+        rating,
+        thumbnail
     };
 
     try {
@@ -414,6 +417,26 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 }
+
+const fetchReviewFromS3 = async (fileName) => {
+    const params = {
+        Bucket: 'bookvibe-bucket',
+        Key: `reviews/${fileName}`,
+    }
+
+    try {
+        const data = await s3.getObject(params).promise();
+        const review = JSON.parse(data.Body.toString());
+        console.log("Fetched review: ", review);
+        return review;
+    } catch (error) {
+        console.error("Error fetching review: ", error);
+        console.log(error);
+    }
+};
+
+
+
 
 // Export only for Node.js
 if (typeof module !== "undefined" && module.exports) {

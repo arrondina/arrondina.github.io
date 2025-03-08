@@ -25,7 +25,7 @@ app.use(
         scriptSrcAttr: ["'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://unpkg.com"], // Allows Google Fonts
         fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://unpkg.com", "data:"], // Allows fonts from Google
-        imgSrc: ["'self'", "data:", "https://books.google.com", "https://images.unsplash.com"],
+        imgSrc: ["'self'", "data:", "https://books.google.com", "https://images.unsplash.com", "blob:", "https://developers.google.com"],
         connectSrc: ["'self'", "https://www.googleapis.com"], // ✅ Allow Google APIs
       },
     })

@@ -18,8 +18,9 @@ const reviewSchema = new Schema(
         book: {
             title: {type: String, required: true},
             author: {type: String, required: true},
-            publishedYear: {type: String, required: true}
-            
+            publishedYear: {type: String, required: true},
+            genre: {type: String, required: true},
+            thumbnail: {type: String, required: true}
         },
         tags: {
             type: [String],

@@ -28,4 +28,26 @@ router.post('/saveReview', async (req, res) => {
     }
 });
 
+router.get('/getReviews', async(req, res) => {
+    const params = {
+        Bucket: 'bookvibe-bucket'
+    };
+
+    try {
+        const data = await s3.listObjectsV2(params).promise();
+        const filePromises = data.Contents.map(async (file) => {
+            const fileParams = { Bucket: 'bookvibe-bucket', Key: file.Key };
+            const fileData = await s3.getObject(fileParams).promise();
+            return JSON.parse(fileData.Body.toString('utf-8'));
+        });
+
+        const reviews = await Promise.all(filePromises);
+        res.json(reviews);
+    } catch (error) {
+        console.error("Error fetching reviews; ", error);
+        console.log(error);
+        res.status(500).json({message: "Error getching reviews" ,error});
+    }
+});
+
 module.exports = router;
