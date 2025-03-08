@@ -1,18 +1,34 @@
 fetch("login-modal.html")
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(html => {
+        document.body.insertAdjacentHTML("beforeend", html);
+
+        attachSignupListener();
+    })
+    .catch(error => {
+        console.error("Error loading login modal:", error);
+    });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        showLoggedInState(user);
     }
-    return response.text();
-})
-.then(html => {
-    document.body.insertAdjacentHTML("beforeend", html);
+});
+
+function attachSignupListener() {
+    // Login Handling
+    const loginButton = document.getElementById("login-btn");
     
-    const loginForm = document.getElementById("login-form");
-    if (loginForm) {
-        loginForm.addEventListener("submit", async function (event) {
+    if (loginButton) {
+        loginButton.addEventListener("click", async function (event) {
             event.preventDefault();
-            console.log("✅ Login form submitted after loading modal");
+            console.log("✅ Login button clicked");
             
             const emailInput = document.getElementById("login-email");
             const passwordInput = document.getElementById("login-password");
@@ -22,15 +38,18 @@ fetch("login-modal.html")
                 return;
             }
 
-            const email = emailInput.value;
-            const password = passwordInput.value;
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
             try {
                 console.log("2 - Fetching login API");
                 const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ emailLogin: email, passwordLogin: password }),
+                    body: JSON.stringify({ 
+                        emailLogin: email, 
+                        passwordLogin: password, 
+                    }),
                 });
 
                 console.log("2.5 - Received Response:", response);
@@ -60,6 +79,7 @@ fetch("login-modal.html")
                     window.location.href = "index.html";
                 } else {
                     console.error("❌ No valid user data received");
+                    alert("Invalid login response from server.");
                 }
                 console.log("5 - Done with login logic");
             } catch (error) {
@@ -70,17 +90,73 @@ fetch("login-modal.html")
             console.log("1.5 - Script reached the end");
         });
     } else {
-        console.error("❌ Login form not found after loading modal.");
+        console.error("❌ Login button not found.");
     }
-})
-.catch(error => {
-    console.error("Error loading login modal:", error);
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-        showLoggedInState(user);
+    // Signup Handling
+    const signupButton = document.getElementById("signup-btn");
+
+    if (signupButton) {
+        signupButton.addEventListener("click", async function (event) {
+            event.preventDefault();
+            console.log("✅ Signup button clicked");
+
+            // Get user input
+            const username = document.getElementById("signup-username").value.trim();
+            const email = document.getElementById("signup-email").value.trim();
+            const password = document.getElementById("signup-password").value.trim();
+            const confirmPassword = document.getElementById("signup-confirm-password").value.trim();
+
+            console.log("📝 Username:", username);
+            console.log("📧 Email:", email);
+            console.log("🔑 Password:", password);
+
+            // Basic validation
+            if (!username || !email || !password || !confirmPassword) {
+                alert("⚠️ Please fill out all fields.");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("⚠️ Passwords do not match!");
+                return;
+            }
+
+            try {
+                // Send signup request to the server
+                console.log("Sending signup request...");
+
+                const response = await fetch("/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        nameSignup: username, 
+                        emailSignup: email, 
+                        passwordSignup: password, 
+                    }),
+                });
+
+                const data = await response.json();
+                console.log("🔹 Server Response:", data);
+                
+                if (!response.ok) {
+                    alert(`⚠️ Signup failed: ${data.error}`);
+                    return;
+                }
+
+                // Save user data in Local Storage
+                localStorage.setItem("user", JSON.stringify(data.user));
+                console.log(" User signed up:", data.user);
+
+                // Redirect to Home Page
+                window.location.href = "index.html";
+
+            } catch (error) {
+                console.error("❌ Signup error:", error);
+                alert("Server error. Please try again.");
+            }
+        });
+    } else {
+        console.error("❌ Signup button not found.");
     }
-});
-
+}

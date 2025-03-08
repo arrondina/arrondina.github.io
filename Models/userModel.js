@@ -4,18 +4,24 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
-        email: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
         name: {
             type: String,
             required: true
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true // No duplication
+        },
+        password: {
+            type: String,
+            required: function() {
+                return !this.googleId; // Only if googleID is not present
+            }
+        },
+        googleId: {
+            type: String,
+            required: false 
         }
     },
     {collection: 'Users'}

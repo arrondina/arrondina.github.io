@@ -35,13 +35,25 @@
                     <div class="pass-link"><a href="#">Forgot password?</a></div>
                     <div class="field-btn">
                         <div class="btn-layer"></div>
-                        <input type="submit" value="Login">
+                        <button type="button" id="login-btn">Login</button>
                     </div>
+
+                    <!-- Google Sign-in Button -->
+                    <div class="google-login-container">
+                        <a href="/auth/google" id="google-login" class="google-btn">
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" width="20">
+                            Sign in with Google
+                        </a>
+                    </div>
+
                     <div class="signup-link">Not a member? <a href="">Signup now</a></div>
                 </form>
             
                 <!-- Signup Form -->
-                <form action="#" class="signup">
+                <form id="signup-form" class="signup">
+                    <div class="field">
+                        <input type="text" id="signup-username" placeholder="Username" required>
+                    </div>
                     <div class="field">
                         <input type="text" id="signup-email" placeholder="Email Address" required>
                     </div>
@@ -53,7 +65,7 @@
                     </div>
                     <div class="field-btn">
                         <div class="btn-layer"></div>
-                        <input type="submit" value="Signup">
+                        <button type="button" id="signup-btn">Signup</button>
                     </div>
                 </form>
             </div>

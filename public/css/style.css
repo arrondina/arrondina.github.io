@@ -315,7 +315,7 @@ form .field input:focus::placeholder{
     margin-top: 20px;
 }
 
-.field-btn input {
+.field-btn button {
     height: 100%;
     width: 100%;
     outline: none;
@@ -329,6 +329,32 @@ form .field input:focus::placeholder{
     background: #301934;
     border-radius: 15px;
     transition: all 0.4s ease;
+}
+
+.google-login-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.google-btn img {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
 }
 
 /* Close Button */
