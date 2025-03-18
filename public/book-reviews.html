@@ -141,7 +141,7 @@
 
         <!-- Book Review List -->
         <section class="recommendation-list">
-            <div class="container">
+            <div class="review-container" id="review-container" >
                 <div class="book" data-genre="fantasy" data-rating="3" data-date="2024-07-22" data-reviews="350" onclick="openModal('Book Covers/HP Chamber of Secrets-JK Rowling.png', 'Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 'Fantasy', 'Harry returns to Hogwarts for his second year and uncovers dark secrets within the school as students are mysteriously petrified.')">
                     <img src="Book Covers/HP Chamber of Secrets-JK Rowling.png" alt="HP Chamber of Secrets">
                     <div class="book-info">
@@ -243,6 +243,12 @@
 
                 console.log(`Selected Sort Option: ${selectedSort}`); // Debug log
 
+                const reviewContainer = document.getElementById("review-container"); // Get review container
+                
+                if (reviewContainer) {
+                    reviewContainer.remove(); // Temporarily remove it to prevent loss
+                }
+
                 books.sort((a, b) => {
                     if (selectedSort === "most-reviewed") {
                     const reviewsA = parseInt(a.getAttribute("data-reviews")) || 0;
@@ -262,15 +268,32 @@
                 }
             });
 
+        
             // Clear the container and re-add sorted books
             bookContainer.innerHTML = ''; // Clear existing books
-            books.forEach(book => bookContainer.appendChild(book));
+            books.forEach(book => {
+                if (!book.classList.contains("review-container")) { 
+                    bookContainer.appendChild(book);
+                }
+            });
+
+
+            // **🔹 Reattach the review container**
+            if (reviewContainer) {
+                bookContainer.appendChild(reviewContainer);
+                console.log("✅ Reattached review-container after sorting!");
+            } else {
+                console.error("❌ review-container was lost after sorting!");
+            }
+            
         }
 
         // Initial filter and sort on page load
         filterBooks();
         sortBooks();
+        console.log("✅ review-container after sorting:", document.getElementById("review-container"));
     });
+
     </script>
 
     <!-- Footer Section -->
@@ -413,5 +436,93 @@
     <script src="js/script.js"></script>
     <script src="js/login-modal.js"></script>
 
+    <script>
+    
+    // let container = document.getElementById("UserReviews");
+
+    // async function displayReviews() {
+    //     const response = await fetch("http://localhost:5000/bv/reviews/getReviews");
+    //     const reviews = await response.json();
+
+    //     let html = "";
+
+    //     reviews.forEach((review) => {
+    //         html += `<div>
+    //             <h3>${review.book.title} - ${review.rating}⭐</h3>
+    //             <p>By: ${review.book.author} (${review.book.publishedYear})</p>
+    //             <p>${review.reviewContent}</p>
+    //             </div>`;
+    //     });
+
+    //     if (container) {
+    //         container.innerHTML = html;
+    //     } else {
+    //         console.error("Element #UserReviews not found!");
+    //     }
+    // }
+
+    // window.onload = function () {
+    // displayReviews();
+    // };
+
+    console.log(document.getElementById("review-container")); // Should NOT be null
+
+    container = document.getElementById("review-container");
+    console.log("outsidedeclaration " + container);
+
+    document.addEventListener("DOMContentLoaded", async function () {
+    const timestamp = Date.now();
+    const response = await fetch(`http://localhost:5000/bv/reviews/getReviews?t=${timestamp}`);
+
+    let reviews;
+
+    if (response.status === 200) {
+        reviews = await response.json();
+    } else if (response.status === 304) {
+        console.log("Reviews data not modified (using cached version)");
+    } else {
+        console.error("Error fetching reviews:", response.status);
+    }
+
+    let html = "";
+
+    if (reviews) {
+    reviews.forEach((review) => {
+        const genre = review.book.genre || "Unknown";
+        const coverImage = review.book.coverImage || "default-cover.png"; // Use a default cover if missing
+        const totalReviews = review.totalReviews || 0; // Avoid null values
+        const date = review.date || "N/A"; // Prevent undefined date
+        const rating = review.rating || "No rating";
+
+        html += `<div class="book" 
+                    data-genre="${genre}" 
+                    data-rating="${rating}" 
+                    data-date="${date}" 
+                    data-reviews="${totalReviews}" 
+                    onclick="openModal('${coverImage}', '${review.book.title.replace(/'/g, "\\'")}', '${review.book.author.replace(/'/g, "\\'")}', '${genre}', '${review.reviewContent.replace(/'/g, "\\'")}')">
+                    
+                    <img src="${coverImage}" alt="${review.book.title}">
+                    <div class="book-info">
+                        <h3>${review.book.title} - ${rating} ⭐</h3>
+                        <h5>By ${review.book.author} (${review.book.publishedYear})</h5>
+                        <p class="genre">Genre: ${genre}</p>
+                    </div>
+                </div>`;
+    });
+        // console.log("HTML:", html); // Debug: Check the generated HTML
+    }
+
+    const container = document.getElementById("review-container");
+    console.log("outsidedeclaration " + container); // Debug: Check the container
+
+    if (container) {
+        console.log("Container found!"); // Debug: Confirm container is found
+        console.log("Inserting HTML into container..."); // Debug: Confirm insertion attempt
+        container.innerHTML = html;
+    } else {
+        console.error("Element #review-container not found!");
+    }
+});
+    </script>
 </body>
 </html>

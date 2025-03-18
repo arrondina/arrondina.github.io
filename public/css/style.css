@@ -1100,7 +1100,7 @@ section hero {
 }
 
 /* =========== BOOKS BOX =========== */
-.recommendation-list {
+.recommendation-list  {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     width: 80%;
@@ -1169,7 +1169,7 @@ section hero {
         gap: 10px;
     }
 
-    .recommendation-list {
+    .recommendation-list .review-container {
         grid-template-columns: 1fr;
     }
 

@@ -9,18 +9,25 @@ const cookieParser = require("cookie-parser");
 const authenticateToken = require("./middleware/authMiddleware");
 const errorHandler = require("./middleware/errorMiddleware");
 const { passport, sessionMiddleware } = require('./auth');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
+
+const session = require('express-session');
+const { passport, sessionMiddleware } = require('./auth');
+const reviewRoutes = require('./Routes/reviewRoutes.js');
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Helmet JS
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -34,11 +41,12 @@ app.use(
                     "'unsafe-inline'",                                    
                 ],
 
-                scriptSrcAttr: ["'none'"],                           
+                scriptSrcAttr: ["'none'","'unsafe-inline'"],                           
                 
                 imgSrc: [
                     "'self'",
-                    "data:",                                             
+                    "data:",              
+                    "https://books.google.com",                               
                     "https://images.unsplash.com",                         
                     "https://developers.google.com",                       
                     "https://mw-cdn.apac.beiniz.biz",
@@ -55,12 +63,14 @@ app.use(
                 fontSrc: [
                     "'self'", 
                     "https://fonts.gstatic.com",   
+                    "https://fonts.googleapis.com",
                     "https://cdnjs.cloudflare.com",  
                     "https://unpkg.com",    
                     "data:",                   
                 ],
                 
-                frameSrc: ["'self'", "https://accounts.google.com"],      
+                frameSrc: ["'self'", "https://accounts.google.com"],    
+                connectSrc: ["'self'", "https://www.googleapis.com"],  
             },
         },
     })
@@ -148,6 +158,8 @@ async function connectDB() {
         app.get('/book-reviews', (req, res) => {
             res.sendFile(path.join(__dirname, 'public', 'book-reviews.html'));
         });
+
+        app.use('/bv/reviews', reviewRoutes);
 
         // Recommendations Page
         app.get('/recommendations', (req, res) => {
