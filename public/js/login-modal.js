@@ -46,6 +46,7 @@ function attachSignupListener() {
                 const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
+                    credentials: "include",
                     body: JSON.stringify({ 
                         emailLogin: email, 
                         passwordLogin: password, 
@@ -54,34 +55,32 @@ function attachSignupListener() {
 
                 console.log("2.5 - Received Response:", response);
 
-                // ✅ Log response details
-                const text = await response.text();
-                console.log("2.6 - Raw response text:", text);
+                // ✅ Parse JSON response 
+                const data = await response.json();
+                console.log("3.5 - Parsed response data:", data);
 
                 if (!response.ok) {
                     console.log("3 - Server responded with an error");
-                    console.error("❌ Login failed:", response.status);
-                    alert("Invalid email or password.");
+                    console.error("❌ Login failed:", errorData.error);
+                    alert(`⚠️ ${errorData.error}`);
                     return;
                 }
 
-                const data = JSON.parse(text); // Convert response to JSON manually
-                console.log("3.5 - Parsed response data:", data);
+                localStorage.removeItem("user");
+                document.cookie = "auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Expire previous token
 
-                if (data && data.name) {
-                    console.log("4 - Calling showLoggedInState()");
+                // ✅ Store token in a cookie
+                document.cookie = `auth_token=${data.token}; path=/; Secure; SameSite=Strict`;
 
-                    // Save user data in Local Storage
-                    localStorage.setItem("user", JSON.stringify(data));
-                    showLoggedInState(data);
+                // ✅ Store user details in localStorage
+                localStorage.setItem("user", JSON.stringify(data.user));
 
-                    // Redirect to Home Page
-                    window.location.href = "index.html";
-                } else {
-                    console.error("❌ No valid user data received");
-                    alert("Invalid login response from server.");
-                }
-                console.log("5 - Done with login logic");
+                // ✅ Update UI
+                showLoggedInState(data.user);
+
+                // ✅ Redirect to Home Page
+                window.location.href = "index.html";
+
             } catch (error) {
                 console.error("❌ Fetch error:", error);
                 alert("Server error. Please try again.");

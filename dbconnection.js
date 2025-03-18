@@ -1,62 +1,143 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const path = require('path');
+const userRoutes = require('./routes/userRoutes.js');
+const adminRoutes = require("./routes/adminRoutes.js"); 
+const cookieParser = require("cookie-parser");
+const authenticateToken = require("./middleware/authMiddleware");
+const errorHandler = require("./middleware/errorMiddleware");
+const { passport, sessionMiddleware } = require('./auth');
+require('dotenv').config();
 
 const app = express();
-
-require('dotenv').config();
-const session = require('express-session');
-const { passport, sessionMiddleware } = require('./auth');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(cookieParser());
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const userRoutes = require('./routes/userRoutes.js');
-app.use(userRoutes);
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+
+                scriptSrc: [
+                    "'self'",
+                    "https://cdnjs.cloudflare.com",
+                    "https://unpkg.com",                            
+                    "'unsafe-inline'",                                    
+                ],
+
+                scriptSrcAttr: ["'none'"],                           
+                
+                imgSrc: [
+                    "'self'",
+                    "data:",                                             
+                    "https://images.unsplash.com",                         
+                    "https://developers.google.com",                       
+                    "https://mw-cdn.apac.beiniz.biz",
+                ],
+                
+                styleSrc: [
+                    "'self'", 
+                    "'unsafe-inline'", 
+                    "https://cdnjs.cloudflare.com",               
+                    "https://unpkg.com",                               
+                    "https://fonts.googleapis.com",                        
+                ],
+
+                fontSrc: [
+                    "'self'", 
+                    "https://fonts.gstatic.com",   
+                    "https://cdnjs.cloudflare.com",  
+                    "https://unpkg.com",    
+                    "data:",                   
+                ],
+                
+                frameSrc: ["'self'", "https://accounts.google.com"],      
+            },
+        },
+    })
+);
 
 const User = require('./models/userModel.js')
 
-const uri = "mongodb+srv://lrjsales:5CC3pLqE80E3JZWq@cluster0.ackb3.mongodb.net/BVDB?retryWrites=true&w=majority&appName=Cluster0";
-
 async function connectDB() {
     try {
-        await mongoose.connect(uri);
-        console.log("Connected the DBBBBBBB");
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("Connected the MongDB");
 
         app.use(express.static(path.join(__dirname, 'public')));
 
         app.use("/", userRoutes);
+        app.use("/", adminRoutes); 
 
         // Google Login Route
         app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-        // Google OAuth Callback
+        // Google OAuth
         app.get('/auth/google/callback',
             passport.authenticate('google', { failureRedirect: '/' }),
             (req, res) => {
-                console.log("✅ Google Login Successful:", req.user);
-
-                res.redirect(`/auth/success?name=${encodeURIComponent(req.user.name)}&email=${encodeURIComponent(req.user.email)}`); // Redirect to homepage after successful login
-            }
+                try {
+                    if (!req.user) {
+                        return res.status(401).json({ error: "Authentication failed" });
+                    }
+                    
+                    const user = req.user;  
+                    const token = user.token;  
+    
+                    console.log("🔹 Google OAuth Callback - User:", user);
+                    console.log("🔹 Google OAuth Callback - Token:", token);
+    
+                    // Store JWT in an HTTP-only cookie (More Secure)
+                    res.cookie("auth_token", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production", // Secure in production
+                        sameSite: "Strict",
+                        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                    });
+    
+                    res.redirect(`/auth/success?name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}`);
+                } catch (error) {
+                    next(error); // Pass error to middleware
+                }
+            } 
         );
 
         // Route to handle successful login
         app.get('/auth/success', (req, res) => {
             res.send(`
                 <script>
-                    localStorage.setItem("user", JSON.stringify({
+                    const user = {
                         name: "${req.query.name}",
                         email: "${req.query.email}"
-                    }));
-                    window.location.href = "/index.html"; // Redirect to homepage
+                    };
+                    localStorage.setItem("user", JSON.stringify(user));
+                    window.location.href = "/index.html";
                 </script>
             `);
+        });
+
+        app.get("/user", authenticateToken, async (req, res) => {
+            try {
+                const user = await User.findById(req.user.id).select("-password"); 
+        
+                if (!user) {
+                    return res.status(404).json({ error: "User not found" });
+                }
+        
+                res.json(user);
+            } catch (error) {
+                console.error("❌ Error fetching user data:", error);
+                next(error);
+            }
         });
 
         app.get('/', (req, res) => {
@@ -79,17 +160,17 @@ async function connectDB() {
         });
 
         // Profile Page
-        app.get('/profile', isAuthenticated, (req, res) => {
+        app.get('/profile', authenticateToken, (req, res) => {
             res.sendFile(path.join(__dirname, 'public', 'profile', 'profile.html'));
         });
 
         // Update Name
-        app.put("/update-name", async (req, res) => {
+        app.put("/update-name", authenticateToken, async (req, res) => {
             try {
-                const { email, newName } = req.body;
+                const { newName } = req.body;
                 
                 const updatedUser = await User.findOneAndUpdate(
-                    { email: email }, // Find user by email
+                    req.user.id, // Authenticated user ID
                     { $set: { name: newName } }, // Update the name field
                     { new: true } // Return updated document
                 );
@@ -101,32 +182,28 @@ async function connectDB() {
                 res.json({ success: true, message: "Name updated successfully", updatedUser });
             } catch (error) {
                 console.error("Error updating name:", error);
-                res.status(500).json({ error: "Server error" });
+                next(error);
             }
         });
 
-        app.listen(5000, function() {
-            console.log("server is running on 5000")
-        })
-
         // Logout Route
         app.get('/logout', (req, res) => {
+            res.clearCookie("auth_token");
             req.logout(function (err) {
                 if (err) return next(err);
                 res.redirect('/');
             });
         });
 
-        // Check Authentication Middleware
-        function isAuthenticated(req, res, next) {
-            if (req.isAuthenticated()) {
-                return next();
-            }
-            res.redirect('/');
-        }
+        app.use(errorHandler);
+
+        app.listen(5000, function() {
+            console.log("server is running on 5000")
+        });
 
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
+        process.exit(1); // Stop the server if DB connection fails
     }
 } 
 

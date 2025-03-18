@@ -22,6 +22,11 @@ const userSchema = new Schema(
         googleId: {
             type: String,
             required: false 
+        },
+        role: { 
+            type: String, 
+            enum: ["user", "admin"], 
+            default: "user" // Default role is 'user'
         }
     },
     {collection: 'Users'}

@@ -29,49 +29,26 @@ window.onclick = function (event) {
         closeBookReviewModal();
     }
 };
- 
-// ===== Local Login Functionality ===== //
-function attachEventListeners() {
-    const loginForm = document.getElementById("login-form");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault(); // Prevent page refresh
-             
-            // Get login input values
-            const email = document.getElementById("login-email").value.trim();
-            const password = document.getElementById("login-password").value.trim();
-
-            const testUser = {
-                email: "user@gmail.com",
-                password: "user123",
-                name: "User"
-            };
-
-            console.log(email + ' ' + password)
-
-            // Validate credentials
-            if (email === testUser.email && password === testUser.password) {
-                localStorage.setItem("user", JSON.stringify(testUser));
-                showLoggedInState(testUser);
-                alert("Login successful! Welcome, " + testUser.name);
-            } else {
-                alert("Invalid email or password. Please try again.");
-            }
-        });
-    } else {
-        console.error("Login form not found.");
-    }
-}
- 
-// new //
 
 // ===== UI Updates for Logged-In State ===== //
 function showLoggedInState(user) {
+    console.log("🔹 Checking stored user data:", user);
+
+    if (!user || !user.name) {
+        console.error("❌ No user data available.");
+        return;
+    }
+
     console.log("🔹 Updating UI for:", user.name); // Debugging log
 
     // Hide the Login button
     const loginButton = document.getElementById("login-button");
-    if (loginButton) loginButton.style.display = "none";
+    if (loginButton) {
+        loginButton.style.display = "none";
+        console.log("✅ Hiding login button");
+    } else {
+        console.error("❌ login-button not found in the DOM");
+    }
 
     // Show the Profile button with the user’s name
     const profileNav = document.getElementById("profile-nav");
@@ -80,18 +57,28 @@ function showLoggedInState(user) {
 
         const firstName = user.name.split(" ")[0]; 
         profileNav.querySelector("#profile-button").textContent = `Welcome, ${firstName}`;
+        console.log(`✅ Updated profile button: Welcome, ${firstName}`);
+    } else {
+        console.error("❌ profile-nav not found in the DOM");
     }
 
     // Show the Log button
     const logNav = document.getElementById("log-nav");
-    if (logNav) logNav.style.display = "block";
+    if (logNav) {
+        logNav.style.display = "block";
+        console.log("✅ Showing log navigation");
+    } else {
+        console.error("❌ log-nav not found in the DOM");
+    }
 
-    // Close the login modal (if applicable)
+    // Close the login modal
     closeLoginModal();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log("🔎 Checking stored user data:", user);
+
     if (user) {
         console.log("🔹 User found in localStorage:", user);
         showLoggedInState(user);
@@ -100,20 +87,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function loggedOut() {
-    // Show the Login button
-    document.getElementById("login-button").style.display = "block";
-  
-    // Hide Profile and Log buttons
-    document.getElementById("profile-nav").style.display = "none";
-    document.getElementById("log-nav").style.display = "none";
-}
-
 // ===== Profile Dropdown Handling ===== //
-document.getElementById("profile-button").addEventListener("click", function (e) {
-    e.preventDefault();
-    const dropdown = document.getElementById("profile-dropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+document.addEventListener("DOMContentLoaded", function () {
+    const profileButton = document.getElementById("profile-button");
+    if (profileButton) {
+        profileButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            const dropdown = document.getElementById("profile-dropdown");
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            }
+        });
+    } else {
+        console.error("❌ profile-button not found in the DOM");
+    }
 });
 
 // Close the dropdown if clicked outside
@@ -133,6 +120,15 @@ document.getElementById("logout").addEventListener("click", function () {
 
     location.href = "/"; // Redirect to homepage
 });
+
+function loggedOut() {
+    // Show the Login button
+    document.getElementById("login-button").style.display = "block";
+  
+    // Hide Profile and Log buttons
+    document.getElementById("profile-nav").style.display = "none";
+    document.getElementById("log-nav").style.display = "none";
+}
 
 // ===== Login/Signup Slider Handling ===== //
 document.addEventListener("DOMContentLoaded", () => {
