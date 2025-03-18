@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 const session = require('express-session');
-const { passport, sessionMiddleware } = require('./auth');
 const reviewRoutes = require('./Routes/reviewRoutes.js');
 app.use(sessionMiddleware);
 app.use(passport.initialize());
