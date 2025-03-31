@@ -310,6 +310,7 @@ async function saveReview() {
     const review = document.getElementById("review").value;
     const tags = document.getElementById("tags").value.split(",");
     const rating = Array.from(document.querySelectorAll("#rating-stars .star.selected")).length;
+    const thumbnail = document.getElementById("modal-image");
     
     if (review.trim() === "") {
       alert("Please write a review before saving!");
@@ -350,6 +351,7 @@ async function saveReview() {
     console.log("Review:", review);
     console.log("Tags:", tags);
     console.log("Rating:", rating);
+
   
     alert("Review saved successfully!");
     closeBookReviewModal();
