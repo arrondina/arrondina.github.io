@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const path = require('path');
-const userRoutes = require('./Routes/userRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 const adminRoutes = require("./routes/adminRoutes.js"); 
 const cookieParser = require("cookie-parser");
 const authenticateToken = require("./middleware/authMiddleware");
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 const session = require('express-session');
-const reviewRoutes = require('./Routes/reviewRoutes.js');
+const reviewRoutes = require('./routes/reviewRoutes.js');
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());

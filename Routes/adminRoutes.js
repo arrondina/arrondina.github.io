@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/userModel.js");
-const authenticateToken = require("../middleware/authMiddleware");
-const authorizeAdmin = require("../middleware/roleMiddleware");
+const authenticateToken = require("../middleware/authMiddleware.js");
+const authorizeAdmin = require("../middleware/roleMiddleware.js");
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Review = require('../Models/reviewModel');
+const Review = require('../models/reviewModel');
 const s3 = require('../public/js/awsConfig')
 
 // Save the review
